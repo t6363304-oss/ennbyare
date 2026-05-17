@@ -4,6 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="えんびゃれ ─ 福島県只見町を舞台に、全国の若者が地域の未来を本気でつくる学生団体。農業体験・地域交流・自然探索。">
+
+  <!-- Open Graph / SNS share -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://t6363304-oss.github.io/ennbyare/">
+  <meta property="og:title" content="えんびゃれ ─ 若者が、地域の未来を変える。">
+  <meta property="og:description" content="福島県只見町を舞台に、全国の若者が地域の未来を本気でつくる学生団体。農業体験・地域交流・自然探索。">
+  <meta property="og:image" content="https://t6363304-oss.github.io/ennbyare/images/16.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="えんびゃれ">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="えんびゃれ ─ 若者が、地域の未来を変える。">
+  <meta name="twitter:description" content="福島県只見町を舞台に、全国の若者が地域の未来を本気でつくる学生団体。">
+  <meta name="twitter:image" content="https://t6363304-oss.github.io/ennbyare/images/16.jpg">
+
   <title>えんびゃれ ─ 若者が、地域の未来を変える。</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1700,10 +1718,11 @@
           </a>
         </div>
       </div>
-      <form class="form-stack reveal-right" onsubmit="handleForm(event)">
+      <form class="form-stack reveal-right" action="https://api.web3forms.com/submit" method="POST">
         <input type="hidden" name="access_key" value="e726b01a-3a39-436c-a342-d957c68013d9">
         <input type="hidden" name="subject" value="【えんびゃれ公式HP】新しいお問い合わせ">
         <input type="hidden" name="from_name" value="えんびゃれ公式HP">
+        <input type="hidden" name="redirect" value="https://web3forms.com/success">
         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
         <div class="form-row">
           <div class="field">
@@ -1775,7 +1794,113 @@
 </footer>
 
 <script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+// NAV scroll background
+const nav = document.getElementById('nav');
+if (nav) {
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+}
+
+// Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.querySelector('.nav-menu');
+if (hamburger && navMenu) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navMenu.classList.toggle('open');
+    document.body.style.overflow = navMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  navMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+// Dynamic content loading from data/*.json
+(function() {
+  const cacheBust = '?t=' + Date.now();
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"\']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"\'":'&#39;'}[c]));
+  }
+  function renderText(s) {
+    return escapeHtml(s).replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>');
+  }
+
+  async function loadJSON(path) {
+    try {
+      const r = await fetch(path + cacheBust);
+      if (!r.ok) throw new Error('fetch failed');
+      return await r.json();
+    } catch(e) { console.warn('Failed to load', path, e); return null; }
+  }
+
+  async function renderVoices() {
+    const wrap = document.getElementById('voicesCards');
+    if (!wrap) return;
+    const data = await loadJSON('data/voices.json');
+    if (!data || !data.voices) return;
+    wrap.innerHTML = data.voices.map((v, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      return `
+        <div class="v-card">
+          <p class="v-num">— ${escapeHtml(num)}</p>
+          <p class="v-text">${renderText(v.text)}</p>
+          <div class="v-divider"></div>
+          <div class="v-author">
+            <div class="v-icon">${escapeHtml(v.icon || '🌸')}</div>
+            <div>
+              <p class="v-name">${escapeHtml(v.name)}</p>
+              <p class="v-attr">${escapeHtml(v.attr)}</p>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function renderGallery() {
+    const wrap = document.getElementById('galleryGrid');
+    if (!wrap) return;
+    const data = await loadJSON('data/gallery.json');
+    if (!data || !data.photos) return;
+    wrap.innerHTML = data.photos.map((p, i) => {
+      return `<div class="gp gp${i+1}"><img src="${escapeHtml(p.src)}" alt="${escapeHtml(p.alt || '')}"></div>`;
+    }).join('');
+  }
+
+  async function renderEvents() {
+    const wrap = document.getElementById('eventList');
+    if (!wrap) return;
+    const data = await loadJSON('data/events.json');
+    if (!data || !data.events) return;
+    wrap.innerHTML = data.events.map(ev => {
+      const meta = (ev.meta || []).map(m => `<span>${escapeHtml(m)}</span>`).join('');
+      return `
+        <div class="event-row">
+          <div class="event-date-block">
+            <div class="event-day">${escapeHtml(ev.day)}</div>
+            <div class="event-month-year">${escapeHtml(ev.monthYear)}</div>
+          </div>
+          <div class="event-info">
+            <span class="event-tag-badge">${escapeHtml(ev.tag)}</span>
+            <div class="event-name">${escapeHtml(ev.name)}</div>
+            <div class="event-meta">${meta}</div>
+          </div>
+          <span class="event-status status-${escapeHtml(ev.statusType || 'plan')}">${escapeHtml(ev.status)}</span>
+        </div>`;
+    }).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderVoices();
+    renderGallery();
+    renderEvents();
+  });
+})();
 </script>
 </body>
 </html>
