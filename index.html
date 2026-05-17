@@ -1794,6 +1794,11 @@
 </footer>
 
 <script>
+// 統計カウンターを最終値で表示
+document.querySelectorAll('.count').forEach(c => {
+  if (c.dataset.target) c.textContent = c.dataset.target;
+});
+
 // NAV scroll background
 const nav = document.getElementById('nav');
 if (nav) {
