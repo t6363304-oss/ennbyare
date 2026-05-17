@@ -1,0 +1,13 @@
+{
+  "photos": [
+    { "id": "g1", "src": "images/17.jpg", "alt": "集合写真" },
+    { "id": "g2", "src": "images/2.jpg",  "alt": "農作業" },
+    { "id": "g3", "src": "images/3.jpg",  "alt": "農作業" },
+    { "id": "g4", "src": "images/4.jpg",  "alt": "集合" },
+    { "id": "g5", "src": "images/11.jpg", "alt": "討論会" },
+    { "id": "g6", "src": "images/13.jpg", "alt": "交流" },
+    { "id": "g7", "src": "images/12.jpg", "alt": "討論会" },
+    { "id": "g8", "src": "images/16.jpg", "alt": "釣り体験" },
+    { "id": "g9", "src": "images/8.jpg",  "alt": "ミュージアム" }
+  ]
+}

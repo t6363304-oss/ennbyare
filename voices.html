@@ -158,7 +158,6 @@
     font-size: 0.7rem;
     letter-spacing: 0.2em;
     z-index: 2;
-    animation: scrollBounce 2s ease-in-out infinite;
   }
   .hero-scroll::after {
     content: '';
@@ -166,10 +165,6 @@
     width: 1px;
     height: 50px;
     background: linear-gradient(to bottom, var(--gold), transparent);
-  }
-  @keyframes scrollBounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(6px); }
   }
 
   /* ── INTRO STRIP ── */
@@ -673,78 +668,7 @@
 </div>
 
 <section class="voices-section">
-  <div class="voices-grid">
-
-    <!-- Card 1 -->
-    <div class="voice-card reveal">
-      <div class="voice-card-inner">
-        <p class="voice-number">— 01</p>
-        <p class="voice-text">
-          初めは<em>「只見に行ってみたいな」くらいの気持ち</em>で参加した。でも、地域の方々との交流や、他大学・社会人の方々と過ごす中で、只見のことを<em>本当に深く知ることができた</em>。あの軽い気持ちが、こんなにも大きな経験につながるとは思っていなかった。
-        </p>
-        <div class="voice-divider"></div>
-        <div class="voice-author">
-          <div class="voice-icon">🌸</div>
-          <div class="voice-author-info">
-            <p class="voice-name">白水 ゆづさ</p>
-            <p class="voice-attr">会津短期大学 2年 ／ 初参加</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 2 -->
-    <div class="voice-card reveal delay-1">
-      <div class="voice-card-inner">
-        <p class="voice-number">— 02</p>
-        <p class="voice-text">
-          山から見える<em>川沿いの民家の風景</em>がノスタルジックで、すごく良いと思った。都会では絶対に感じられない空気がそこにあった。
-        </p>
-        <div class="voice-divider"></div>
-        <div class="voice-author">
-          <div class="voice-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L3 7v10l9 5 9-5V7L12 2z" stroke="#c9a84c" stroke-width="1.2" stroke-linejoin="round"/>
-              <path d="M12 2v15M3 7l9 5 9-5" stroke="#c9a84c" stroke-width="1.2" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="voice-author-info">
-            <p class="voice-name">小野 拓海</p>
-            <p class="voice-attr">会津大学 1年 ／ 初参加</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="voice-card reveal">
-      <div class="voice-card-inner">
-        <p class="voice-number">— 03</p>
-        <p class="voice-text">
-          只見町に対して<em>印象が全くなかった</em>が、実際に足を運んでみると、自然が豊かで<em>人も温かい</em>ことを知れた。来る前と後で、まちへの見方がまるで変わった。
-        </p>
-        <div class="voice-divider"></div>
-        <div class="voice-author">
-          <div class="voice-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="9" stroke="#c9a84c" stroke-width="1.2"/>
-              <circle cx="12" cy="12" r="3" stroke="#c9a84c" stroke-width="1.2"/>
-              <line x1="12" y1="3" x2="12" y2="9" stroke="#c9a84c" stroke-width="1.2"/>
-              <line x1="12" y1="15" x2="12" y2="21" stroke="#c9a84c" stroke-width="1.2"/>
-              <line x1="3" y1="12" x2="9" y2="12" stroke="#c9a84c" stroke-width="1.2"/>
-              <line x1="15" y1="12" x2="21" y2="12" stroke="#c9a84c" stroke-width="1.2"/>
-            </svg>
-          </div>
-          <div class="voice-author-info">
-            <p class="voice-name">齋藤 くるみ</p>
-            <p class="voice-attr">大正大学 1年 ／ 初参加</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-  </div>
+  <div class="voices-grid" id="voicesGrid"></div>
 </section>
 
 <!-- ── PHOTO STRIP ── -->
@@ -823,7 +747,6 @@
   }, { passive: true });
 
   // Reveal
-  const revealEls = document.querySelectorAll('.reveal, .reveal-left');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -832,7 +755,45 @@
       }
     });
   }, { threshold: 0.12 });
-  revealEls.forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal, .reveal-left').forEach(el => observer.observe(el));
+
+  // ── Voices: dynamic load from data/voices.json ──
+  (function() {
+    const cacheBust = '?t=' + Date.now();
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function renderText(s) {
+      return escapeHtml(s).replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>');
+    }
+    fetch('data/voices.json' + cacheBust)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        const wrap = document.getElementById('voicesGrid');
+        if (!wrap || !data || !data.voices) return;
+        wrap.innerHTML = data.voices.map((v, i) => {
+          const num = String(i + 1).padStart(2, '0');
+          const delay = i > 0 ? ` delay-${i}` : '';
+          return `
+            <div class="voice-card reveal${delay}">
+              <div class="voice-card-inner">
+                <p class="voice-number">— ${escapeHtml(num)}</p>
+                <p class="voice-text">${renderText(v.text)}</p>
+                <div class="voice-divider"></div>
+                <div class="voice-author">
+                  <div class="voice-icon">${escapeHtml(v.icon || '🌸')}</div>
+                  <div class="voice-author-info">
+                    <p class="voice-name">${escapeHtml(v.name)}</p>
+                    <p class="voice-attr">${escapeHtml(v.attr)}</p>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+        wrap.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      })
+      .catch(e => console.warn('voices load failed', e));
+  })();
 </script>
 
 </body>
