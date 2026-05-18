@@ -149,11 +149,11 @@
 </head>
 <body>
 
-<!-- ── Login gate ── -->
+<!-- Login gate -->
 <div class="gate" id="gate">
   <div class="gate-box">
     <h1>🔐 管理画面</h1>
-    <p class="helptext" style="text-align:center;margin-bottom:1.2rem;">えんびゃれ コンテンツ管理</p>
+    <p class="helptext" style="text-align:center;margin-bottom:1.2rem;">えんびゃれ コンテンツ管理（プレビュー）</p>
     <div class="field">
       <label>パスワード</label>
       <input type="password" id="pwInput" autocomplete="off" placeholder="パスワードを入力">
@@ -163,48 +163,22 @@
   </div>
 </div>
 
-<!-- ── Main app ── -->
+<!-- Main app -->
 <div class="app hidden" id="app">
   <div class="toolbar">
     <div class="left">
       <h1>📝 コンテンツ管理</h1>
-      <span class="badge" id="tokenStatus">未設定</span>
+      <span class="badge warn" id="modeBadge">プレビューモード</span>
     </div>
     <div class="right">
-      <button class="btn ghost sm" id="settingsBtn">⚙️ 設定</button>
       <button class="btn ghost sm" id="reloadBtn">🔄 再読込</button>
-      <button class="btn ok" id="saveBtn">💾 GitHubに保存</button>
       <button class="btn ghost sm" id="logoutBtn">ログアウト</button>
     </div>
   </div>
 
-  <!-- Settings panel (collapsible) -->
-  <div class="panel hidden" id="settingsPanel">
-    <h2>⚙️ GitHub 設定</h2>
-    <div class="field-row">
-      <div class="field">
-        <label>リポジトリオーナー</label>
-        <input type="text" id="cfgOwner" placeholder="t6363304-oss">
-      </div>
-      <div class="field">
-        <label>リポジトリ名</label>
-        <input type="text" id="cfgRepo" placeholder="ennbyare">
-      </div>
-    </div>
-    <div class="field">
-      <label>ブランチ</label>
-      <input type="text" id="cfgBranch" placeholder="main">
-    </div>
-    <div class="field">
-      <label>GitHub Personal Access Token <span style="color:var(--accent-light)">(必須)</span></label>
-      <input type="password" id="cfgToken" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
-      <p class="helptext">
-        <a class="link" href="https://github.com/settings/tokens/new?scopes=repo&description=ennbyare-admin" target="_blank">こちら</a> で発行（scope: <code>repo</code> をチェック）。トークンはブラウザにのみ保存されます。
-      </p>
-    </div>
-    <button class="btn" id="saveCfgBtn">設定を保存</button>
-    <button class="btn ghost" id="closeCfgBtn">閉じる</button>
-  </div>
+  <p class="helptext" id="previewNote">
+    この管理画面はプレビュー専用です。変更はブラウザ内でのみ確認でき、ページを再読込すると元に戻ります。
+  </p>
 
   <!-- Tabs -->
   <div class="tabs">
@@ -232,13 +206,9 @@
   <!-- Gallery tab -->
   <div class="panel hidden" id="tab-gallery">
     <h2>📷 写真ギャラリー</h2>
-    <p class="helptext">トップページのギャラリーに表示されます。9枚を推奨。アップロードした写真は <code>images/</code> フォルダに自動保存されます。</p>
+    <p class="helptext">トップページのギャラリーに表示されます。9枚を推奨。画像は <code>images/</code> 配下のパスを指定してください。</p>
     <div id="galleryList"></div>
-    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-      <button class="btn ghost" id="addPhotoBtn">＋ 既存画像から追加</button>
-      <button class="btn" id="uploadPhotoBtn">📤 写真をアップロード</button>
-      <input type="file" id="photoFileInput" accept="image/*" style="display:none;">
-    </div>
+    <button class="btn ghost full" id="addPhotoBtn">＋ 既存画像から追加</button>
   </div>
 
   <div class="log hidden" id="log"></div>
@@ -247,41 +217,16 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ───────────────────────────────────────────────────────────
-// Configuration
-// ───────────────────────────────────────────────────────────
-// ⚠️ パスワードを変更したい場合は、下記の値を編集してください。
-// （注意: 静的サイトなのでガチセキュリティではありません。身内向けの軽い鍵）
 const ADMIN_PASSWORD = "ennbyare2026";
 
-const DEFAULT_OWNER  = "t6363304-oss";
-const DEFAULT_REPO   = "ennbyare";
-const DEFAULT_BRANCH = "main";
-
-// ───────────────────────────────────────────────────────────
-// State
-// ───────────────────────────────────────────────────────────
 const state = {
   events: [],
   voices: [],
   gallery: [],
-  shas: {},      // path -> SHA from GitHub (needed to update)
   currentTab: 'events',
   loggedIn: false,
 };
 
-function cfg() {
-  return {
-    owner: localStorage.getItem('admin_owner')  || DEFAULT_OWNER,
-    repo:  localStorage.getItem('admin_repo')   || DEFAULT_REPO,
-    branch: localStorage.getItem('admin_branch')|| DEFAULT_BRANCH,
-    token: localStorage.getItem('admin_token')  || '',
-  };
-}
-
-// ───────────────────────────────────────────────────────────
-// DOM helpers
-// ───────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -300,9 +245,7 @@ function log(msg, type='info') {
   el.scrollTop = el.scrollHeight;
 }
 
-// ───────────────────────────────────────────────────────────
 // Login gate
-// ───────────────────────────────────────────────────────────
 function tryLogin() {
   const pw = $('pwInput').value;
   if (pw === ADMIN_PASSWORD) {
@@ -324,7 +267,6 @@ $('logoutBtn').addEventListener('click', () => {
   location.reload();
 });
 
-// Auto-login if session exists
 if (sessionStorage.getItem('admin_session') === '1') {
   state.loggedIn = true;
   $('gate').classList.add('hidden');
@@ -332,41 +274,7 @@ if (sessionStorage.getItem('admin_session') === '1') {
   initApp();
 }
 
-// ───────────────────────────────────────────────────────────
-// Settings panel
-// ───────────────────────────────────────────────────────────
-$('settingsBtn').addEventListener('click', () => {
-  const p = $('settingsPanel');
-  p.classList.toggle('hidden');
-  if (!p.classList.contains('hidden')) {
-    const c = cfg();
-    $('cfgOwner').value = c.owner;
-    $('cfgRepo').value = c.repo;
-    $('cfgBranch').value = c.branch;
-    $('cfgToken').value = c.token;
-  }
-});
-$('closeCfgBtn').addEventListener('click', () => $('settingsPanel').classList.add('hidden'));
-$('saveCfgBtn').addEventListener('click', () => {
-  localStorage.setItem('admin_owner', $('cfgOwner').value.trim() || DEFAULT_OWNER);
-  localStorage.setItem('admin_repo',  $('cfgRepo').value.trim()  || DEFAULT_REPO);
-  localStorage.setItem('admin_branch', $('cfgBranch').value.trim() || DEFAULT_BRANCH);
-  localStorage.setItem('admin_token', $('cfgToken').value.trim());
-  updateTokenStatus();
-  toast('設定を保存しました');
-  $('settingsPanel').classList.add('hidden');
-});
-
-function updateTokenStatus() {
-  const c = cfg();
-  const el = $('tokenStatus');
-  if (c.token) { el.textContent = `${c.owner}/${c.repo} ✓`; el.className = 'badge ok'; }
-  else { el.textContent = 'Token未設定'; el.className = 'badge warn'; }
-}
-
-// ───────────────────────────────────────────────────────────
 // Tabs
-// ───────────────────────────────────────────────────────────
 document.querySelectorAll('.tab').forEach(t => {
   t.addEventListener('click', () => {
     document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
@@ -378,62 +286,24 @@ document.querySelectorAll('.tab').forEach(t => {
   });
 });
 
-// ───────────────────────────────────────────────────────────
-// GitHub API
-// ───────────────────────────────────────────────────────────
-async function ghGet(path) {
-  const c = cfg();
-  const url = `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`;
-  const r = await fetch(url, {
-    headers: c.token ? { Authorization: `token ${c.token}` } : {}
-  });
-  if (r.status === 404) return null;
-  if (!r.ok) throw new Error(`GET ${path}: ${r.status} ${await r.text()}`);
-  return await r.json();
-}
-
-async function ghPut(path, contentBase64, sha, message) {
-  const c = cfg();
-  if (!c.token) throw new Error('GitHub Token が未設定です（⚙️設定から登録してください）');
-  const url = `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`;
-  const body = { message, content: contentBase64, branch: c.branch };
-  if (sha) body.sha = sha;
-  const r = await fetch(url, {
-    method: 'PUT',
-    headers: { Authorization: `token ${c.token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-  if (!r.ok) throw new Error(`PUT ${path}: ${r.status} ${await r.text()}`);
-  return await r.json();
-}
-
-// Encode UTF-8 string to base64 (browser-safe)
-function utf8ToBase64(str) {
-  return btoa(unescape(encodeURIComponent(str)));
-}
-function base64ToUtf8(b64) {
-  return decodeURIComponent(escape(atob(b64.replace(/\s/g, ''))));
-}
-
-// ───────────────────────────────────────────────────────────
-// Load data
-// ───────────────────────────────────────────────────────────
+// Local data load
 async function loadAll() {
   log('データを読み込み中…');
+  const cacheBust = '?t=' + Date.now();
+  const files = [
+    ['events', 'data/events.json'],
+    ['voices', 'data/voices.json'],
+    ['gallery', 'data/gallery.json'],
+  ];
   try {
-    for (const [key, path] of [['events','data/events.json'],['voices','data/voices.json'],['gallery','data/gallery.json']]) {
-      const file = await ghGet(path);
-      if (file) {
-        state.shas[path] = file.sha;
-        const text = base64ToUtf8(file.content);
-        const parsed = JSON.parse(text);
-        if (key === 'events') state.events = parsed.events || [];
-        if (key === 'voices') state.voices = parsed.voices || [];
-        if (key === 'gallery') state.gallery = parsed.photos || [];
-        log(`  ✓ ${path}`, 'ok');
-      } else {
-        log(`  ! ${path} が見つかりません`, 'err');
-      }
+    for (const [key, path] of files) {
+      const r = await fetch(path + cacheBust);
+      if (!r.ok) { log(`  ! ${path} (${r.status})`, 'err'); continue; }
+      const parsed = await r.json();
+      if (key === 'events') state.events = parsed.events || [];
+      if (key === 'voices') state.voices = parsed.voices || [];
+      if (key === 'gallery') state.gallery = parsed.photos || [];
+      log(`  ✓ ${path}`, 'ok');
     }
     renderEvents();
     renderVoices();
@@ -447,14 +317,12 @@ async function loadAll() {
 
 $('reloadBtn').addEventListener('click', loadAll);
 
-// ───────────────────────────────────────────────────────────
-// Events rendering
-// ───────────────────────────────────────────────────────────
+// Events
 function renderEvents() {
   const wrap = $('eventsList');
-  if (!state.events.length) { wrap.innerHTML = '<p class="helptext">イベントが登録されていません</p>'; return; }
+  if (!state.events.length) { wrap.innerHTML = '<p class="helptext" data-empty="events">イベントが登録されていません</p>'; return; }
   wrap.innerHTML = state.events.map((ev, i) => `
-    <div class="item-card">
+    <div class="item-card" data-kind="event" data-index="${i}">
       <div class="item-head">
         <span class="item-head-label">イベント ${i+1}</span>
         <div class="item-actions">
@@ -528,14 +396,12 @@ $('addEventBtn').addEventListener('click', () => {
   renderEvents();
 });
 
-// ───────────────────────────────────────────────────────────
-// Voices rendering
-// ───────────────────────────────────────────────────────────
+// Voices
 function renderVoices() {
   const wrap = $('voicesList');
-  if (!state.voices.length) { wrap.innerHTML = '<p class="helptext">声がまだ登録されていません</p>'; return; }
+  if (!state.voices.length) { wrap.innerHTML = '<p class="helptext" data-empty="voices">声がまだ登録されていません</p>'; return; }
   wrap.innerHTML = state.voices.map((v, i) => `
-    <div class="item-card">
+    <div class="item-card" data-kind="voice" data-index="${i}">
       <div class="item-head">
         <span class="item-head-label">声 ${String(i+1).padStart(2,'0')}</span>
         <div class="item-actions">
@@ -592,14 +458,12 @@ $('addVoiceBtn').addEventListener('click', () => {
   renderVoices();
 });
 
-// ───────────────────────────────────────────────────────────
-// Gallery rendering
-// ───────────────────────────────────────────────────────────
+// Gallery
 function renderGallery() {
   const wrap = $('galleryList');
-  if (!state.gallery.length) { wrap.innerHTML = '<p class="helptext">写真が登録されていません</p>'; return; }
+  if (!state.gallery.length) { wrap.innerHTML = '<p class="helptext" data-empty="gallery">写真が登録されていません</p>'; return; }
   wrap.innerHTML = state.gallery.map((p, i) => `
-    <div class="item-card">
+    <div class="item-card" data-kind="photo" data-index="${i}">
       <div class="photo-item">
         <img class="photo-thumb" src="${escapeHtml(p.src)}" alt="" onerror="this.style.opacity=0.3">
         <div>
@@ -644,7 +508,6 @@ function handleGalleryChange(e) {
   const f = e.target.dataset.gf;
   state.gallery[i][f] = e.target.value;
   if (f === 'src') {
-    // refresh thumbnail
     const img = e.target.closest('.photo-item').querySelector('.photo-thumb');
     img.src = e.target.value;
   }
@@ -657,102 +520,11 @@ $('addPhotoBtn').addEventListener('click', () => {
   renderGallery();
 });
 
-// Photo upload
-$('uploadPhotoBtn').addEventListener('click', () => $('photoFileInput').click());
+// Test hook: expose state for E2E inspection
+window.__adminState = state;
 
-$('photoFileInput').addEventListener('change', async e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  if (!cfg().token) { toast('GitHub Token が必要です（⚙️設定から登録）', true); return; }
-
-  const filename = prompt('保存ファイル名（拡張子込み）', file.name.replace(/\s+/g, '_'));
-  if (!filename) return;
-  const path = 'images/' + filename;
-
-  try {
-    log(`画像をアップロード中: ${path}`);
-    const b64 = await fileToBase64(file);
-    const existing = await ghGet(path);
-    await ghPut(path, b64, existing ? existing.sha : null, `Upload ${filename} via admin`);
-    log(`  ✓ ${path}`, 'ok');
-    state.gallery.push({ id: 'g' + Date.now(), src: path, alt: '' });
-    renderGallery();
-    toast('アップロード成功');
-  } catch(err) {
-    log('アップロード失敗: ' + err.message, 'err');
-    toast('アップロード失敗: ' + err.message, true);
-  } finally {
-    e.target.value = '';
-  }
-});
-
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => {
-      const result = r.result;
-      const b64 = result.substring(result.indexOf(',') + 1);
-      resolve(b64);
-    };
-    r.onerror = reject;
-    r.readAsDataURL(file);
-  });
-}
-
-// ───────────────────────────────────────────────────────────
-// Save all
-// ───────────────────────────────────────────────────────────
-$('saveBtn').addEventListener('click', async () => {
-  if (!cfg().token) { toast('GitHub Token が必要です（⚙️設定から登録）', true); return; }
-  if (!confirm('現在の内容をGitHubに保存します。よろしいですか？\n(1〜2分後にサイトに反映されます)')) return;
-
-  $('saveBtn').disabled = true;
-  $('saveBtn').textContent = '保存中…';
-  log('保存を開始…');
-
-  const files = [
-    { path: 'data/events.json',  data: { events: state.events } },
-    { path: 'data/voices.json',  data: { voices: state.voices } },
-    { path: 'data/gallery.json', data: { photos: state.gallery } },
-  ];
-
-  try {
-    for (const f of files) {
-      const json = JSON.stringify(f.data, null, 2) + '\n';
-      const b64 = utf8ToBase64(json);
-      // Re-fetch SHA to avoid conflicts
-      const cur = await ghGet(f.path);
-      const sha = cur ? cur.sha : null;
-      await ghPut(f.path, b64, sha, `Update ${f.path} via admin`);
-      state.shas[f.path] = sha; // will be replaced on next loadAll
-      log(`  ✓ ${f.path}`, 'ok');
-    }
-    log('全て保存完了！1〜2分後にサイトに反映されます', 'ok');
-    toast('保存しました（1〜2分後に反映）');
-  } catch(e) {
-    log('保存失敗: ' + e.message, 'err');
-    toast('保存失敗: ' + e.message, true);
-  } finally {
-    $('saveBtn').disabled = false;
-    $('saveBtn').textContent = '💾 GitHubに保存';
-  }
-});
-
-// ───────────────────────────────────────────────────────────
-// Init
-// ───────────────────────────────────────────────────────────
 function initApp() {
-  updateTokenStatus();
-  if (!cfg().token) {
-    log('GitHub Token が未設定です。⚙️設定ボタンから登録してください。', 'err');
-    $('settingsPanel').classList.remove('hidden');
-    const c = cfg();
-    $('cfgOwner').value = c.owner;
-    $('cfgRepo').value = c.repo;
-    $('cfgBranch').value = c.branch;
-  } else {
-    loadAll();
-  }
+  loadAll();
 }
 </script>
 </body>
