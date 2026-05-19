@@ -4,6 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="えんびゃれ ─ 福島県只見町を舞台に、全国の若者が地域の未来を本気でつくる学生団体。農業体験・地域交流・自然探索。">
+  <meta name="keywords" content="えんびゃれ,只見町,福島,学生団体,地域活性化,農業体験,地方創生,若者">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0f2318">
+  <link rel="canonical" href="https://t6363304-oss.github.io/ennbyare/">
+
+  <!-- Structured data: Organization + WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "えんびゃれ",
+        "alternateName": "ennbyare",
+        "url": "https://t6363304-oss.github.io/ennbyare/",
+        "logo": "https://t6363304-oss.github.io/ennbyare/logo.png",
+        "description": "福島県只見町を舞台に、全国の若者が地域の未来を本気でつくる学生団体。",
+        "areaServed": {
+          "@type": "Place",
+          "name": "福島県只見町",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "福島県",
+            "addressLocality": "只見町",
+            "addressCountry": "JP"
+          }
+        },
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "name": "えんびゃれ ─ 若者が、地域の未来を変える。",
+        "url": "https://t6363304-oss.github.io/ennbyare/",
+        "inLanguage": "ja-JP",
+        "publisher": { "@type": "Organization", "name": "えんびゃれ" }
+      }
+    ]
+  }
+  </script>
 
   <!-- Open Graph / SNS share -->
   <meta property="og:type" content="website">
@@ -1825,9 +1864,15 @@ if (hamburger && navMenu) {
   });
 }
 
-// Dynamic content loading from data/*.json
+// Dynamic content loading - events/voices from microCMS, gallery from local JSON
 (function() {
   const cacheBust = '?t=' + Date.now();
+
+  // microCMS設定（読み取り専用キーに切替推奨）
+  const MICROCMS = {
+    base: 'https://ennbyare.microcms.io/api/v1',
+    key:  'a02rDqoI1hiFttO1SkZ8Uy0Wu9OGcwlk1Oyi'
+  };
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"\']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"\'":'&#39;'}[c]));
@@ -1844,12 +1889,21 @@ if (hamburger && navMenu) {
     } catch(e) { console.warn('Failed to load', path, e); return null; }
   }
 
+  async function loadMicroCMS(endpoint) {
+    try {
+      const url = `${MICROCMS.base}/${endpoint}?orders=createdAt&limit=100`;
+      const r = await fetch(url, { headers: { 'X-MICROCMS-API-KEY': MICROCMS.key } });
+      if (!r.ok) throw new Error('microCMS fetch failed: ' + r.status);
+      return await r.json();
+    } catch(e) { console.warn('Failed to load microCMS', endpoint, e); return null; }
+  }
+
   async function renderVoices() {
     const wrap = document.getElementById('voicesCards');
     if (!wrap) return;
-    const data = await loadJSON('data/voices.json');
-    if (!data || !data.voices) return;
-    wrap.innerHTML = data.voices.map((v, i) => {
+    const data = await loadMicroCMS('voices');
+    if (!data || !data.contents) return;
+    wrap.innerHTML = data.contents.map((v, i) => {
       const num = String(i + 1).padStart(2, '0');
       return `
         <div class="v-card">
@@ -1880,10 +1934,11 @@ if (hamburger && navMenu) {
   async function renderEvents() {
     const wrap = document.getElementById('eventList');
     if (!wrap) return;
-    const data = await loadJSON('data/events.json');
-    if (!data || !data.events) return;
-    wrap.innerHTML = data.events.map(ev => {
-      const meta = (ev.meta || []).map(m => `<span>${escapeHtml(m)}</span>`).join('');
+    const data = await loadMicroCMS('events');
+    if (!data || !data.contents) return;
+    wrap.innerHTML = data.contents.map(ev => {
+      const metaArr = (ev.meta || '').split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      const meta = metaArr.map(m => `<span>${escapeHtml(m)}</span>`).join('');
       return `
         <div class="event-row">
           <div class="event-date-block">

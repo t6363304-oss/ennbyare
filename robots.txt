@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /manage-ennbyare-x9k2p7q.html
+Disallow: /data/
+
+Sitemap: https://t6363304-oss.github.io/ennbyare/sitemap.xml

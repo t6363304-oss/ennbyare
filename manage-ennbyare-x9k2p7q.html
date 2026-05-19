@@ -26,506 +26,257 @@
     padding: 1rem;
   }
   h1, h2, h3 { font-weight: 600; }
-  h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem; color: var(--accent-light); }
-  h3 { font-size: 1rem; color: var(--accent-light); margin-bottom: 0.5rem; }
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.2rem; margin: 2rem 0 0.8rem; color: var(--accent-light); }
 
-  .gate, .app { max-width: 960px; margin: 0 auto; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .hidden { display: none !important; }
 
-  .gate {
-    display: flex; align-items: center; justify-content: center; min-height: 90vh;
-  }
+  /* ── ゲート ── */
+  .gate { display: flex; align-items: center; justify-content: center; min-height: 90vh; }
   .gate-box {
     background: var(--panel); padding: 2.5rem; border-radius: 12px;
     width: 100%; max-width: 420px; border: 1px solid var(--border);
   }
-  .gate-box h1 { text-align: center; margin-bottom: 1.5rem; }
-
-  .hidden { display: none !important; }
-
-  .toolbar {
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--panel); padding: 1rem 1.2rem; border-radius: 10px;
-    margin-bottom: 1rem; flex-wrap: wrap; gap: 0.8rem;
-    position: sticky; top: 0; z-index: 100; border: 1px solid var(--border);
+  .gate-box h1 { text-align: center; margin-bottom: 0.6rem; }
+  .gate-box .sub {
+    text-align: center; color: var(--muted); font-size: 0.9rem; margin-bottom: 1.8rem;
   }
-  .toolbar .left { display: flex; align-items: center; gap: 1rem; }
-  .toolbar .right { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-  .toolbar h1 { font-size: 1.1rem; }
-  .badge { font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 10px; background: rgba(255,255,255,0.08); color: var(--muted); }
-  .badge.ok { background: rgba(74,144,96,0.25); color: #b0e0bd; }
-  .badge.warn { background: rgba(224,123,58,0.25); color: var(--accent-light); }
-
-  .tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; flex-wrap: wrap; }
-  .tab {
-    background: var(--panel); border: 1px solid var(--border);
-    color: var(--muted); padding: 0.6rem 1.2rem; border-radius: 8px;
-    cursor: pointer; font-size: 0.9rem; font-weight: 500;
-  }
-  .tab.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-  .panel {
-    background: var(--panel); border-radius: 10px; padding: 1.5rem;
-    border: 1px solid var(--border); margin-bottom: 1rem;
-  }
-
-  .item-card {
-    background: var(--panel-2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 1rem; margin-bottom: 0.8rem;
-  }
-  .item-head {
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 0.5rem; margin-bottom: 0.8rem;
-  }
-  .item-head-label { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
-  .item-actions { display: flex; gap: 0.3rem; flex-wrap: wrap; }
-
-  .field { margin-bottom: 0.8rem; }
+  .field { margin-bottom: 1rem; }
   .field label {
     display: block; font-size: 0.8rem; color: var(--muted);
     margin-bottom: 0.3rem; font-weight: 500;
   }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
-
-  input[type="text"], input[type="password"], input[type="url"], textarea, select {
-    width: 100%; padding: 0.6rem 0.8rem;
+  input[type="password"], input[type="text"] {
+    width: 100%; padding: 0.7rem 0.9rem;
     background: var(--bg); color: var(--text);
     border: 1px solid var(--border); border-radius: 6px;
-    font-size: 0.9rem; font-family: inherit;
+    font-size: 0.95rem; font-family: inherit;
   }
-  textarea { resize: vertical; min-height: 80px; }
-  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+  input:focus { outline: none; border-color: var(--accent); }
 
   .btn {
-    background: var(--accent); color: white; border: none;
-    padding: 0.55rem 1rem; border-radius: 6px; cursor: pointer;
-    font-size: 0.85rem; font-weight: 500; font-family: inherit;
-    transition: opacity 0.15s;
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+    padding: 0.7rem 1.4rem; border: none; border-radius: 6px;
+    font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    background: var(--accent); color: white; transition: background 0.15s;
+    text-decoration: none; font-family: inherit;
   }
-  .btn:hover { opacity: 0.88; }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn.ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
-  .btn.danger { background: var(--danger); }
-  .btn.ok { background: var(--ok); }
-  .btn.sm { padding: 0.3rem 0.6rem; font-size: 0.78rem; }
-  .btn.full { width: 100%; }
+  .btn:hover { background: #d06a2a; }
+  .btn-full { width: 100%; }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .btn-ghost:hover { background: var(--panel-2); color: var(--text); }
 
-  .helptext { color: var(--muted); font-size: 0.8rem; margin: 0.4rem 0 0.8rem; }
-  .link { color: var(--accent-light); text-decoration: underline; }
+  .err { color: var(--danger); font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2em; }
 
-  .photo-item {
-    display: grid; grid-template-columns: 80px 1fr auto; gap: 0.8rem;
-    align-items: center;
+  /* ── ダッシュボード ── */
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--panel); padding: 1.2rem 1.6rem; border-radius: 10px;
+    border: 1px solid var(--border); margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.8rem;
   }
-  .photo-thumb {
-    width: 80px; height: 80px; object-fit: cover;
-    border-radius: 6px; background: var(--bg);
+  .topbar .lead h1 { font-size: 1.3rem; margin-bottom: 0.2rem; }
+  .topbar .lead .sub { color: var(--muted); font-size: 0.85rem; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+
+  .card {
+    background: var(--panel); border-radius: 10px; padding: 1.5rem;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+  }
+  .card .icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .card h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+  .card .desc { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; flex-grow: 1; }
+  .card .count {
+    background: var(--panel-2); border-radius: 6px; padding: 0.6rem 0.9rem;
+    margin-bottom: 1rem; font-size: 0.9rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .count .num { font-size: 1.3rem; font-weight: 600; color: var(--accent-light); }
+  .count.loading .num { color: var(--muted); }
+
+  .panel {
+    background: var(--panel); border-radius: 10px; padding: 1.5rem 1.8rem;
+    border: 1px solid var(--border); margin-top: 1.5rem;
+  }
+  .panel h2 { margin-top: 0; }
+  .panel p { color: var(--muted); margin-bottom: 0.5rem; font-size: 0.9rem; }
+  .panel ol { padding-left: 1.4rem; color: var(--muted); font-size: 0.9rem; }
+  .panel ol li { margin-bottom: 0.4rem; }
+  .panel code {
+    background: var(--bg); padding: 0.15rem 0.4rem; border-radius: 4px;
+    color: var(--accent-light); font-size: 0.85em;
   }
 
-  .log {
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: 6px; padding: 0.8rem; font-size: 0.78rem;
-    font-family: 'SF Mono', 'Consolas', monospace; color: var(--muted);
-    max-height: 200px; overflow-y: auto; margin-top: 0.8rem; white-space: pre-wrap;
-  }
-  .log .ok { color: #9ee0a8; }
-  .log .err { color: #ff9080; }
-  .log .info { color: var(--accent-light); }
-
-  .toast {
-    position: fixed; bottom: 1.5rem; right: 1.5rem;
-    background: var(--panel); border: 1px solid var(--border);
-    border-left: 4px solid var(--ok);
-    padding: 0.8rem 1.2rem; border-radius: 6px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    opacity: 0; transform: translateY(20px);
-    transition: opacity 0.2s, transform 0.2s; z-index: 1000;
-    max-width: 360px;
-  }
-  .toast.show { opacity: 1; transform: translateY(0); }
-  .toast.err { border-left-color: var(--danger); }
+  .footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 2rem; padding: 1rem; }
 </style>
 </head>
 <body>
 
-<!-- Login gate -->
-<div class="gate" id="gate">
+<!-- ── ログインゲート ── -->
+<div class="wrap gate" id="gate">
   <div class="gate-box">
     <h1>🔐 管理画面</h1>
-    <p class="helptext" style="text-align:center;margin-bottom:1.2rem;">えんびゃれ コンテンツ管理（プレビュー）</p>
-    <div class="field">
-      <label>パスワード</label>
-      <input type="password" id="pwInput" autocomplete="off" placeholder="パスワードを入力">
-    </div>
-    <button class="btn full" id="pwBtn">ログイン</button>
-    <p id="pwError" class="helptext" style="color:#ff9080; text-align:center; margin-top:0.8rem;"></p>
+    <p class="sub">えんびゃれ コンテンツ管理</p>
+    <form id="gateForm">
+      <div class="field">
+        <label for="pw">パスワード</label>
+        <input type="password" id="pw" autocomplete="current-password" required>
+      </div>
+      <button class="btn btn-full" type="submit">ログイン</button>
+      <p class="err" id="err"></p>
+    </form>
   </div>
 </div>
 
-<!-- Main app -->
-<div class="app hidden" id="app">
-  <div class="toolbar">
-    <div class="left">
-      <h1>📝 コンテンツ管理</h1>
-      <span class="badge warn" id="modeBadge">プレビューモード</span>
+<!-- ── ダッシュボード ── -->
+<div class="wrap hidden" id="app">
+
+  <div class="topbar">
+    <div class="lead">
+      <h1>📋 ダッシュボード</h1>
+      <div class="sub">microCMSを使ってコンテンツを編集します</div>
     </div>
-    <div class="right">
-      <button class="btn ghost sm" id="reloadBtn">🔄 再読込</button>
-      <button class="btn ghost sm" id="logoutBtn">ログアウト</button>
+    <div>
+      <button class="btn btn-ghost" id="logoutBtn">ログアウト</button>
     </div>
   </div>
 
-  <p class="helptext" id="previewNote">
-    この管理画面はプレビュー専用です。変更はブラウザ内でのみ確認でき、ページを再読込すると元に戻ります。
-  </p>
+  <div class="grid">
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" data-tab="events">📅 お知らせ・イベント</button>
-    <button class="tab" data-tab="voices">💬 参加者の声</button>
-    <button class="tab" data-tab="gallery">📷 写真ギャラリー</button>
+    <div class="card">
+      <div class="icon">📅</div>
+      <h3>イベント情報</h3>
+      <p class="desc">トップページの「イベント情報」セクションに表示される内容を管理します。</p>
+      <div class="count loading" id="countEvents">
+        <span>登録件数</span>
+        <span class="num" data-key="events">…</span>
+      </div>
+      <a class="btn" href="https://app.microcms.io/" target="_blank" rel="noopener">microCMSで編集 ↗</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">💬</div>
+      <h3>参加者の声</h3>
+      <p class="desc">「Voices」セクションに表示される参加者コメントを管理します。</p>
+      <div class="count loading" id="countVoices">
+        <span>登録件数</span>
+        <span class="num" data-key="voices">…</span>
+      </div>
+      <a class="btn" href="https://app.microcms.io/" target="_blank" rel="noopener">microCMSで編集 ↗</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">🖼️</div>
+      <h3>写真ギャラリー</h3>
+      <p class="desc">トップページのギャラリーに表示される写真を管理します。</p>
+      <div class="count loading" id="countGallery">
+        <span>登録件数</span>
+        <span class="num" data-key="gallery">…</span>
+      </div>
+      <a class="btn" href="https://app.microcms.io/" target="_blank" rel="noopener">microCMSで編集 ↗</a>
+    </div>
+
   </div>
 
-  <!-- Events tab -->
-  <div class="panel" id="tab-events">
-    <h2>📅 イベント情報</h2>
-    <p class="helptext">トップページの「イベント情報」セクションに表示されます。</p>
-    <div id="eventsList"></div>
-    <button class="btn ghost full" id="addEventBtn">＋ イベントを追加</button>
+  <div class="panel">
+    <h2>📖 使い方</h2>
+    <ol>
+      <li>各カードの「<strong>microCMSで編集 ↗</strong>」ボタンを押す</li>
+      <li>microCMSのログイン画面が開くので、メールアドレスとパスワードでログイン</li>
+      <li>「ennbyare」サービス → 編集したい API（イベント / 参加者の声 / 写真ギャラリー）を選ぶ</li>
+      <li>項目をクリックして編集、「<code>公開を更新</code>」ボタンで保存</li>
+      <li>サイト側は数秒〜数十秒で自動的に最新内容が反映されます</li>
+    </ol>
   </div>
 
-  <!-- Voices tab -->
-  <div class="panel hidden" id="tab-voices">
-    <h2>💬 参加者の声</h2>
-    <p class="helptext">トップページと参加者の声ページに表示されます。強調したい部分は <code>&lt;em&gt;ここ&lt;/em&gt;</code> で囲めます。</p>
-    <div id="voicesList"></div>
-    <button class="btn ghost full" id="addVoiceBtn">＋ 声を追加</button>
+  <div class="panel">
+    <h2>💡 便利なリンク</h2>
+    <p>
+      • <a href="https://app.microcms.io/" target="_blank" rel="noopener" style="color: var(--accent-light);">microCMS 管理画面</a>（コンテンツ編集）<br>
+      • <a href="/" style="color: var(--accent-light);">えんびゃれ トップページ</a>（公開サイト）
+    </p>
   </div>
 
-  <!-- Gallery tab -->
-  <div class="panel hidden" id="tab-gallery">
-    <h2>📷 写真ギャラリー</h2>
-    <p class="helptext">トップページのギャラリーに表示されます。9枚を推奨。画像は <code>images/</code> 配下のパスを指定してください。</p>
-    <div id="galleryList"></div>
-    <button class="btn ghost full" id="addPhotoBtn">＋ 既存画像から追加</button>
-  </div>
-
-  <div class="log hidden" id="log"></div>
+  <div class="footer">えんびゃれ 管理画面 v2.0 ─ Powered by microCMS</div>
 </div>
-
-<div class="toast" id="toast"></div>
 
 <script>
-const ADMIN_PASSWORD = "ennbyare2026";
+(function() {
+  const PASSWORD = 'ennbyare2026';
+  const STORAGE_KEY = 'ennbyare-manage-auth';
+  const MICROCMS = {
+    base: 'https://ennbyare.microcms.io/api/v1',
+    key:  'a02rDqoI1hiFttO1SkZ8Uy0Wu9OGcwlk1Oyi'
+  };
 
-const state = {
-  events: [],
-  voices: [],
-  gallery: [],
-  currentTab: 'events',
-  loggedIn: false,
-};
+  const gate = document.getElementById('gate');
+  const app  = document.getElementById('app');
+  const err  = document.getElementById('err');
 
-const $ = id => document.getElementById(id);
-const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-function toast(msg, isErr=false) {
-  const el = $('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (isErr ? ' err' : '');
-  setTimeout(() => el.classList.remove('show'), 3000);
-}
-
-function log(msg, type='info') {
-  const el = $('log');
-  el.classList.remove('hidden');
-  const time = new Date().toLocaleTimeString();
-  el.innerHTML += `<div class="${type}">[${time}] ${escapeHtml(msg)}</div>`;
-  el.scrollTop = el.scrollHeight;
-}
-
-// Login gate
-function tryLogin() {
-  const pw = $('pwInput').value;
-  if (pw === ADMIN_PASSWORD) {
-    state.loggedIn = true;
-    sessionStorage.setItem('admin_session', '1');
-    $('gate').classList.add('hidden');
-    $('app').classList.remove('hidden');
-    initApp();
-  } else {
-    $('pwError').textContent = 'パスワードが違います';
+  function showApp() {
+    gate.classList.add('hidden');
+    app.classList.remove('hidden');
+    loadCounts();
   }
-}
+  function showGate() {
+    app.classList.add('hidden');
+    gate.classList.remove('hidden');
+    document.getElementById('pw').value = '';
+    err.textContent = '';
+  }
 
-$('pwBtn').addEventListener('click', tryLogin);
-$('pwInput').addEventListener('keypress', e => { if (e.key === 'Enter') tryLogin(); });
+  if (sessionStorage.getItem(STORAGE_KEY) === '1') {
+    showApp();
+  }
 
-$('logoutBtn').addEventListener('click', () => {
-  sessionStorage.removeItem('admin_session');
-  location.reload();
-});
-
-if (sessionStorage.getItem('admin_session') === '1') {
-  state.loggedIn = true;
-  $('gate').classList.add('hidden');
-  $('app').classList.remove('hidden');
-  initApp();
-}
-
-// Tabs
-document.querySelectorAll('.tab').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-    state.currentTab = t.dataset.tab;
-    ['events','voices','gallery'].forEach(name => {
-      $('tab-' + name).classList.toggle('hidden', name !== state.currentTab);
-    });
-  });
-});
-
-// Local data load
-async function loadAll() {
-  log('データを読み込み中…');
-  const cacheBust = '?t=' + Date.now();
-  const files = [
-    ['events', 'data/events.json'],
-    ['voices', 'data/voices.json'],
-    ['gallery', 'data/gallery.json'],
-  ];
-  try {
-    for (const [key, path] of files) {
-      const r = await fetch(path + cacheBust);
-      if (!r.ok) { log(`  ! ${path} (${r.status})`, 'err'); continue; }
-      const parsed = await r.json();
-      if (key === 'events') state.events = parsed.events || [];
-      if (key === 'voices') state.voices = parsed.voices || [];
-      if (key === 'gallery') state.gallery = parsed.photos || [];
-      log(`  ✓ ${path}`, 'ok');
+  document.getElementById('gateForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const pw = document.getElementById('pw').value;
+    if (pw === PASSWORD) {
+      sessionStorage.setItem(STORAGE_KEY, '1');
+      err.textContent = '';
+      showApp();
+    } else {
+      err.textContent = 'パスワードが違います';
     }
-    renderEvents();
-    renderVoices();
-    renderGallery();
-    log('読み込み完了', 'ok');
-  } catch(e) {
-    log('読み込みエラー: ' + e.message, 'err');
-    toast('読み込み失敗: ' + e.message, true);
-  }
-}
-
-$('reloadBtn').addEventListener('click', loadAll);
-
-// Events
-function renderEvents() {
-  const wrap = $('eventsList');
-  if (!state.events.length) { wrap.innerHTML = '<p class="helptext" data-empty="events">イベントが登録されていません</p>'; return; }
-  wrap.innerHTML = state.events.map((ev, i) => `
-    <div class="item-card" data-kind="event" data-index="${i}">
-      <div class="item-head">
-        <span class="item-head-label">イベント ${i+1}</span>
-        <div class="item-actions">
-          <button class="btn ghost sm" data-act="move-up" data-i="${i}">↑</button>
-          <button class="btn ghost sm" data-act="move-down" data-i="${i}">↓</button>
-          <button class="btn danger sm" data-act="del" data-i="${i}">削除</button>
-        </div>
-      </div>
-      <div class="field-row">
-        <div class="field"><label>日（DD）</label><input type="text" data-f="day" data-i="${i}" value="${escapeHtml(ev.day)}"></div>
-        <div class="field"><label>月・年 (例: MAY 2026)</label><input type="text" data-f="monthYear" data-i="${i}" value="${escapeHtml(ev.monthYear)}"></div>
-      </div>
-      <div class="field-row">
-        <div class="field"><label>カテゴリ（タグ）</label><input type="text" data-f="tag" data-i="${i}" value="${escapeHtml(ev.tag)}"></div>
-        <div class="field"><label>ステータス（表示文言）</label><input type="text" data-f="status" data-i="${i}" value="${escapeHtml(ev.status)}"></div>
-      </div>
-      <div class="field">
-        <label>ステータスの種類</label>
-        <select data-f="statusType" data-i="${i}">
-          <option value="done"${ev.statusType==='done'?' selected':''}>開催済（グレー）</option>
-          <option value="soon"${ev.statusType==='soon'?' selected':''}>近日開催（オレンジ）</option>
-          <option value="plan"${ev.statusType==='plan'?' selected':''}>予定・募集中（緑）</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>イベント名</label>
-        <input type="text" data-f="name" data-i="${i}" value="${escapeHtml(ev.name)}">
-      </div>
-      <div class="field">
-        <label>詳細（場所・時間など、1行ずつ）</label>
-        <textarea data-f="meta" data-i="${i}" rows="3">${escapeHtml((ev.meta||[]).join('\n'))}</textarea>
-      </div>
-    </div>
-  `).join('');
-
-  wrap.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', handleEventAction));
-  wrap.querySelectorAll('[data-f]').forEach(inp => inp.addEventListener('input', handleEventChange));
-}
-
-function handleEventAction(e) {
-  const i = +e.target.dataset.i;
-  const act = e.target.dataset.act;
-  if (act === 'del') {
-    if (!confirm('このイベントを削除しますか？')) return;
-    state.events.splice(i, 1);
-  } else if (act === 'move-up' && i > 0) {
-    [state.events[i-1], state.events[i]] = [state.events[i], state.events[i-1]];
-  } else if (act === 'move-down' && i < state.events.length - 1) {
-    [state.events[i+1], state.events[i]] = [state.events[i], state.events[i+1]];
-  }
-  renderEvents();
-}
-
-function handleEventChange(e) {
-  const i = +e.target.dataset.i;
-  const f = e.target.dataset.f;
-  if (f === 'meta') {
-    state.events[i][f] = e.target.value.split('\n').map(s => s.trim()).filter(Boolean);
-  } else {
-    state.events[i][f] = e.target.value;
-  }
-}
-
-$('addEventBtn').addEventListener('click', () => {
-  state.events.push({
-    id: 'e' + Date.now(),
-    day: '01', monthYear: 'JAN 2027', tag: '活動',
-    name: '新しいイベント', meta: ['📍 場所'],
-    status: '予定', statusType: 'plan'
   });
-  renderEvents();
-});
 
-// Voices
-function renderVoices() {
-  const wrap = $('voicesList');
-  if (!state.voices.length) { wrap.innerHTML = '<p class="helptext" data-empty="voices">声がまだ登録されていません</p>'; return; }
-  wrap.innerHTML = state.voices.map((v, i) => `
-    <div class="item-card" data-kind="voice" data-index="${i}">
-      <div class="item-head">
-        <span class="item-head-label">声 ${String(i+1).padStart(2,'0')}</span>
-        <div class="item-actions">
-          <button class="btn ghost sm" data-vact="move-up" data-i="${i}">↑</button>
-          <button class="btn ghost sm" data-vact="move-down" data-i="${i}">↓</button>
-          <button class="btn danger sm" data-vact="del" data-i="${i}">削除</button>
-        </div>
-      </div>
-      <div class="field-row">
-        <div class="field"><label>名前</label><input type="text" data-vf="name" data-i="${i}" value="${escapeHtml(v.name)}"></div>
-        <div class="field"><label>所属（例: 〇〇大学 1年）</label><input type="text" data-vf="attr" data-i="${i}" value="${escapeHtml(v.attr)}"></div>
-      </div>
-      <div class="field">
-        <label>アイコン（絵文字1文字推奨）</label>
-        <input type="text" data-vf="icon" data-i="${i}" value="${escapeHtml(v.icon||'🌸')}" maxlength="4" style="width:80px;">
-      </div>
-      <div class="field">
-        <label>本文（&lt;em&gt;〜&lt;/em&gt; で強調可）</label>
-        <textarea data-vf="text" data-i="${i}" rows="4">${escapeHtml(v.text)}</textarea>
-      </div>
-    </div>
-  `).join('');
-
-  wrap.querySelectorAll('[data-vact]').forEach(b => b.addEventListener('click', handleVoiceAction));
-  wrap.querySelectorAll('[data-vf]').forEach(inp => inp.addEventListener('input', handleVoiceChange));
-}
-
-function handleVoiceAction(e) {
-  const i = +e.target.dataset.i;
-  const act = e.target.dataset.vact;
-  if (act === 'del') {
-    if (!confirm('この声を削除しますか？')) return;
-    state.voices.splice(i, 1);
-  } else if (act === 'move-up' && i > 0) {
-    [state.voices[i-1], state.voices[i]] = [state.voices[i], state.voices[i-1]];
-  } else if (act === 'move-down' && i < state.voices.length - 1) {
-    [state.voices[i+1], state.voices[i]] = [state.voices[i], state.voices[i+1]];
-  }
-  renderVoices();
-}
-
-function handleVoiceChange(e) {
-  const i = +e.target.dataset.i;
-  const f = e.target.dataset.vf;
-  state.voices[i][f] = e.target.value;
-}
-
-$('addVoiceBtn').addEventListener('click', () => {
-  state.voices.push({
-    id: 'v' + Date.now(),
-    icon: '🌸', name: '名前', attr: '〇〇大学 1年',
-    text: '体験談をここに記入', shortText: ''
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    sessionStorage.removeItem(STORAGE_KEY);
+    showGate();
   });
-  renderVoices();
-});
 
-// Gallery
-function renderGallery() {
-  const wrap = $('galleryList');
-  if (!state.gallery.length) { wrap.innerHTML = '<p class="helptext" data-empty="gallery">写真が登録されていません</p>'; return; }
-  wrap.innerHTML = state.gallery.map((p, i) => `
-    <div class="item-card" data-kind="photo" data-index="${i}">
-      <div class="photo-item">
-        <img class="photo-thumb" src="${escapeHtml(p.src)}" alt="" onerror="this.style.opacity=0.3">
-        <div>
-          <div class="field" style="margin-bottom:0.4rem;">
-            <label>画像パス</label>
-            <input type="text" data-gf="src" data-i="${i}" value="${escapeHtml(p.src)}">
-          </div>
-          <div class="field" style="margin-bottom:0;">
-            <label>説明（alt）</label>
-            <input type="text" data-gf="alt" data-i="${i}" value="${escapeHtml(p.alt||'')}">
-          </div>
-        </div>
-        <div class="item-actions" style="flex-direction:column;">
-          <button class="btn ghost sm" data-gact="move-up" data-i="${i}">↑</button>
-          <button class="btn ghost sm" data-gact="move-down" data-i="${i}">↓</button>
-          <button class="btn danger sm" data-gact="del" data-i="${i}">削除</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-
-  wrap.querySelectorAll('[data-gact]').forEach(b => b.addEventListener('click', handleGalleryAction));
-  wrap.querySelectorAll('[data-gf]').forEach(inp => inp.addEventListener('input', handleGalleryChange));
-}
-
-function handleGalleryAction(e) {
-  const i = +e.target.dataset.i;
-  const act = e.target.dataset.gact;
-  if (act === 'del') {
-    if (!confirm('この写真をギャラリーから外しますか？\n（ファイル自体は削除されません）')) return;
-    state.gallery.splice(i, 1);
-  } else if (act === 'move-up' && i > 0) {
-    [state.gallery[i-1], state.gallery[i]] = [state.gallery[i], state.gallery[i-1]];
-  } else if (act === 'move-down' && i < state.gallery.length - 1) {
-    [state.gallery[i+1], state.gallery[i]] = [state.gallery[i], state.gallery[i+1]];
+  async function fetchCount(endpoint) {
+    try {
+      const r = await fetch(`${MICROCMS.base}/${endpoint}?limit=0`, {
+        headers: { 'X-MICROCMS-API-KEY': MICROCMS.key }
+      });
+      if (!r.ok) return null;
+      const data = await r.json();
+      return data.totalCount;
+    } catch(e) {
+      console.warn('count fetch failed', endpoint, e);
+      return null;
+    }
   }
-  renderGallery();
-}
 
-function handleGalleryChange(e) {
-  const i = +e.target.dataset.i;
-  const f = e.target.dataset.gf;
-  state.gallery[i][f] = e.target.value;
-  if (f === 'src') {
-    const img = e.target.closest('.photo-item').querySelector('.photo-thumb');
-    img.src = e.target.value;
+  async function loadCounts() {
+    const targets = [
+      { id: 'countEvents',  ep: 'events'  },
+      { id: 'countVoices',  ep: 'voices'  },
+      { id: 'countGallery', ep: 'gallery' }
+    ];
+    for (const t of targets) {
+      const wrap = document.getElementById(t.id);
+      const num  = wrap.querySelector('.num');
+      const n = await fetchCount(t.ep);
+      wrap.classList.remove('loading');
+      num.textContent = (n === null) ? '取得失敗' : (n + ' 件');
+    }
   }
-}
-
-$('addPhotoBtn').addEventListener('click', () => {
-  const path = prompt('画像パス（例: images/20.jpg）', 'images/');
-  if (!path) return;
-  state.gallery.push({ id: 'g' + Date.now(), src: path, alt: '' });
-  renderGallery();
-});
-
-// Test hook: expose state for E2E inspection
-window.__adminState = state;
-
-function initApp() {
-  loadAll();
-}
+})();
 </script>
 </body>
 </html>
