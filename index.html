@@ -1924,9 +1924,21 @@ if (hamburger && navMenu) {
   async function renderGallery() {
     const wrap = document.getElementById('galleryGrid');
     if (!wrap) return;
-    const data = await loadJSON('data/gallery.json');
-    if (!data || !data.photos) return;
-    wrap.innerHTML = data.photos.map((p, i) => {
+    // まずmicroCMSのギャラリーを取得。0件ならローカルJSONにフォールバック。
+    const cms = await loadMicroCMS('gallery');
+    let items = [];
+    if (cms && Array.isArray(cms.contents) && cms.contents.length > 0) {
+      items = cms.contents.map(c => ({
+        src: (c.image && c.image.url) || '',
+        alt: c.caption || ''
+      })).filter(x => x.src);
+    }
+    if (items.length === 0) {
+      const data = await loadJSON('data/gallery.json');
+      if (!data || !data.photos) return;
+      items = data.photos.map(p => ({ src: p.src, alt: p.alt || '' }));
+    }
+    wrap.innerHTML = items.map((p, i) => {
       return `<div class="gp gp${i+1}"><img src="${escapeHtml(p.src)}" alt="${escapeHtml(p.alt || '')}"></div>`;
     }).join('');
   }

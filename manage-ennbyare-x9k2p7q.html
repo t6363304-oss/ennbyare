@@ -26,10 +26,11 @@
     padding: 1rem;
   }
   h1, h2, h3 { font-weight: 600; }
-  h1 { font-size: 1.6rem; }
-  h2 { font-size: 1.2rem; margin: 2rem 0 0.8rem; color: var(--accent-light); }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.15rem; margin-bottom: 0.8rem; color: var(--accent-light); }
+  h3 { font-size: 1rem; }
 
-  .wrap { max-width: 880px; margin: 0 auto; }
+  .wrap { max-width: 960px; margin: 0 auto; }
   .hidden { display: none !important; }
 
   /* ── ゲート ── */
@@ -39,26 +40,29 @@
     width: 100%; max-width: 420px; border: 1px solid var(--border);
   }
   .gate-box h1 { text-align: center; margin-bottom: 0.6rem; }
-  .gate-box .sub {
-    text-align: center; color: var(--muted); font-size: 0.9rem; margin-bottom: 1.8rem;
-  }
+  .gate-box .sub { text-align: center; color: var(--muted); font-size: 0.9rem; margin-bottom: 1.8rem; }
+
   .field { margin-bottom: 1rem; }
   .field label {
     display: block; font-size: 0.8rem; color: var(--muted);
     margin-bottom: 0.3rem; font-weight: 500;
   }
-  input[type="password"], input[type="text"] {
+  input[type="password"], input[type="text"], input[type="file"], textarea, select {
     width: 100%; padding: 0.7rem 0.9rem;
     background: var(--bg); color: var(--text);
     border: 1px solid var(--border); border-radius: 6px;
     font-size: 0.95rem; font-family: inherit;
   }
-  input:focus { outline: none; border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 90px; }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
 
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
-    padding: 0.7rem 1.4rem; border: none; border-radius: 6px;
-    font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    padding: 0.6rem 1.2rem; border: none; border-radius: 6px;
+    font-size: 0.9rem; font-weight: 500; cursor: pointer;
     background: var(--accent); color: white; transition: background 0.15s;
     text-decoration: none; font-family: inherit;
   }
@@ -66,50 +70,148 @@
   .btn-full { width: 100%; }
   .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
   .btn-ghost:hover { background: var(--panel-2); color: var(--text); }
+  .btn-danger { background: var(--danger); }
+  .btn-danger:hover { background: #a93828; }
+  .btn-ok { background: var(--ok); }
+  .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
 
-  .err { color: var(--danger); font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2em; }
+  .err { color: #ff8a76; font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2em; }
+  .ok-msg { color: #b0e0bd; font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2em; }
 
-  /* ── ダッシュボード ── */
+  /* ── トップバー ── */
   .topbar {
     display: flex; justify-content: space-between; align-items: center;
-    background: var(--panel); padding: 1.2rem 1.6rem; border-radius: 10px;
-    border: 1px solid var(--border); margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.8rem;
+    background: var(--panel); padding: 1rem 1.4rem; border-radius: 10px;
+    border: 1px solid var(--border); margin-bottom: 1rem; flex-wrap: wrap; gap: 0.8rem;
   }
-  .topbar .lead h1 { font-size: 1.3rem; margin-bottom: 0.2rem; }
-  .topbar .lead .sub { color: var(--muted); font-size: 0.85rem; }
+  .topbar h1 { font-size: 1.2rem; }
+  .topbar .sub { color: var(--muted); font-size: 0.8rem; }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
-
-  .card {
-    background: var(--panel); border-radius: 10px; padding: 1.5rem;
-    border: 1px solid var(--border);
-    display: flex; flex-direction: column;
+  /* ── タブ ── */
+  .tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .tab {
+    background: var(--panel); border: 1px solid var(--border);
+    color: var(--muted); padding: 0.6rem 1.2rem; border-radius: 8px;
+    cursor: pointer; font-size: 0.9rem; font-weight: 500; font-family: inherit;
   }
-  .card .icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
-  .card h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
-  .card .desc { color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; flex-grow: 1; }
-  .card .count {
-    background: var(--panel-2); border-radius: 6px; padding: 0.6rem 0.9rem;
-    margin-bottom: 1rem; font-size: 0.9rem;
-    display: flex; justify-content: space-between; align-items: center;
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .tab .count {
+    display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.45rem;
+    border-radius: 10px; background: rgba(255,255,255,0.18); font-size: 0.75rem;
   }
-  .count .num { font-size: 1.3rem; font-weight: 600; color: var(--accent-light); }
-  .count.loading .num { color: var(--muted); }
+  .tab.active .count { background: rgba(0,0,0,0.25); }
 
+  /* ── パネル ── */
   .panel {
-    background: var(--panel); border-radius: 10px; padding: 1.5rem 1.8rem;
-    border: 1px solid var(--border); margin-top: 1.5rem;
+    background: var(--panel); border-radius: 10px; padding: 1.4rem;
+    border: 1px solid var(--border); margin-bottom: 1rem;
   }
-  .panel h2 { margin-top: 0; }
-  .panel p { color: var(--muted); margin-bottom: 0.5rem; font-size: 0.9rem; }
-  .panel ol { padding-left: 1.4rem; color: var(--muted); font-size: 0.9rem; }
-  .panel ol li { margin-bottom: 0.4rem; }
-  .panel code {
-    background: var(--bg); padding: 0.15rem 0.4rem; border-radius: 4px;
-    color: var(--accent-light); font-size: 0.85em;
+  .panel-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .panel-head h2 { margin: 0; }
+
+  /* ── リスト ── */
+  .list { display: flex; flex-direction: column; gap: 0.8rem; }
+  .empty {
+    text-align: center; padding: 2rem 1rem; color: var(--muted); font-size: 0.9rem;
+  }
+  .loading {
+    text-align: center; padding: 1.5rem 1rem; color: var(--muted); font-size: 0.9rem;
   }
 
-  .footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 2rem; padding: 1rem; }
+  .item {
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1rem 1.2rem;
+  }
+  .item-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 0.8rem; margin-bottom: 0.5rem; flex-wrap: wrap;
+  }
+  .item-title { font-weight: 600; flex: 1; min-width: 0; }
+  .item-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
+  .item-body { color: var(--muted); font-size: 0.88rem; }
+  .item-body .row { margin-top: 0.25rem; }
+  .item-body .label {
+    color: var(--accent-light); font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .badge {
+    display: inline-block; padding: 0.1rem 0.5rem; border-radius: 4px;
+    font-size: 0.7rem; background: rgba(255,255,255,0.1); color: var(--muted);
+    margin-right: 0.3rem;
+  }
+
+  /* ── ギャラリーリスト ── */
+  .gallery-list {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.8rem;
+  }
+  .gallery-item {
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;
+  }
+  .gallery-item img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover; background: #000;
+  }
+  .gallery-item .info {
+    padding: 0.7rem 0.9rem; flex: 1; display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .gallery-item .caption {
+    font-size: 0.85rem; color: var(--text); word-break: break-word;
+    flex: 1;
+  }
+  .gallery-item .gallery-actions { display: flex; gap: 0.3rem; }
+
+  /* ── フォーム ── */
+  .form-card {
+    background: var(--panel-2); border: 1px solid var(--accent);
+    border-radius: 8px; padding: 1.3rem; margin-bottom: 1rem;
+  }
+  .form-card h3 { color: var(--accent-light); margin-bottom: 1rem; }
+  .form-actions {
+    display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .help {
+    font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem;
+  }
+  .img-preview {
+    margin-top: 0.5rem; max-width: 200px;
+    border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+  }
+  .img-preview img { width: 100%; display: block; }
+  .current-img { margin-bottom: 0.5rem; }
+  .current-img img {
+    max-width: 200px; max-height: 150px; border-radius: 6px;
+    border: 1px solid var(--border); display: block;
+  }
+
+  /* ── トースト ── */
+  .toast-wrap {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 1000;
+    display: flex; flex-direction: column-reverse; gap: 0.5rem; pointer-events: none;
+  }
+  .toast {
+    background: var(--panel-2); color: var(--text);
+    padding: 0.8rem 1.2rem; border-radius: 6px;
+    border-left: 3px solid var(--ok); box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    font-size: 0.9rem; max-width: 320px;
+    animation: toastIn 0.25s ease-out;
+  }
+  .toast.err { border-left-color: var(--danger); }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .info-bar {
+    background: rgba(224,123,58,0.1); border: 1px solid rgba(224,123,58,0.25);
+    color: var(--accent-light); padding: 0.7rem 1rem; border-radius: 6px;
+    font-size: 0.82rem; margin-bottom: 1rem; line-height: 1.5;
+  }
 </style>
 </head>
 <body>
@@ -125,85 +227,69 @@
         <input type="password" id="pw" autocomplete="current-password" required>
       </div>
       <button class="btn btn-full" type="submit">ログイン</button>
-      <p class="err" id="err"></p>
+      <p class="err" id="gateErr"></p>
     </form>
   </div>
 </div>
 
-<!-- ── ダッシュボード ── -->
+<!-- ── アプリ本体 ── -->
 <div class="wrap hidden" id="app">
 
   <div class="topbar">
-    <div class="lead">
-      <h1>📋 ダッシュボード</h1>
-      <div class="sub">microCMSを使ってコンテンツを編集します</div>
-    </div>
     <div>
-      <button class="btn btn-ghost" id="logoutBtn">ログアウト</button>
+      <h1>📋 えんびゃれ 管理画面</h1>
+      <div class="sub">microCMS連携・コンテンツ編集</div>
     </div>
+    <button class="btn btn-ghost btn-sm" id="logoutBtn">ログアウト</button>
   </div>
 
-  <div class="grid">
-
-    <div class="card">
-      <div class="icon">📅</div>
-      <h3>イベント情報</h3>
-      <p class="desc">トップページの「イベント情報」セクションに表示される内容を管理します。</p>
-      <div class="count loading" id="countEvents">
-        <span>登録件数</span>
-        <span class="num" data-key="events">…</span>
-      </div>
-      <a class="btn" href="https://app.microcms.io/" target="_blank" rel="noopener">microCMSで編集 ↗</a>
-    </div>
-
-    <div class="card">
-      <div class="icon">💬</div>
-      <h3>参加者の声</h3>
-      <p class="desc">「Voices」セクションに表示される参加者コメントを管理します。</p>
-      <div class="count loading" id="countVoices">
-        <span>登録件数</span>
-        <span class="num" data-key="voices">…</span>
-      </div>
-      <a class="btn" href="https://app.microcms.io/" target="_blank" rel="noopener">microCMSで編集 ↗</a>
-    </div>
-
-    <div class="card">
-      <div class="icon">🖼️</div>
-      <h3>写真ギャラリー</h3>
-      <p class="desc">トップページのギャラリーに表示される写真を管理します。</p>
-      <div class="count loading" id="countGallery">
-        <span>登録件数</span>
-        <span class="num" data-key="gallery">…</span>
-      </div>
-      <a class="btn" href="https://app.microcms.io/" target="_blank" rel="noopener">microCMSで編集 ↗</a>
-    </div>
-
+  <div class="info-bar">
+    💡 編集・削除した内容は数秒〜数十秒で公開サイトに反映されます。
   </div>
 
-  <div class="panel">
-    <h2>📖 使い方</h2>
-    <ol>
-      <li>各カードの「<strong>microCMSで編集 ↗</strong>」ボタンを押す</li>
-      <li>microCMSのログイン画面が開くので、メールアドレスとパスワードでログイン</li>
-      <li>「ennbyare」サービス → 編集したい API（イベント / 参加者の声 / 写真ギャラリー）を選ぶ</li>
-      <li>項目をクリックして編集、「<code>公開を更新</code>」ボタンで保存</li>
-      <li>サイト側は数秒〜数十秒で自動的に最新内容が反映されます</li>
-    </ol>
+  <div class="tabs">
+    <button class="tab active" data-tab="events">📅 イベント<span class="count" id="cnt-events">…</span></button>
+    <button class="tab" data-tab="voices">💬 参加者の声<span class="count" id="cnt-voices">…</span></button>
+    <button class="tab" data-tab="gallery">🖼️ 写真<span class="count" id="cnt-gallery">…</span></button>
   </div>
 
-  <div class="panel">
-    <h2>💡 便利なリンク</h2>
-    <p>
-      • <a href="https://app.microcms.io/" target="_blank" rel="noopener" style="color: var(--accent-light);">microCMS 管理画面</a>（コンテンツ編集）<br>
-      • <a href="/" style="color: var(--accent-light);">えんびゃれ トップページ</a>（公開サイト）
-    </p>
+  <!-- イベント -->
+  <div class="panel" id="panel-events">
+    <div class="panel-head">
+      <h2>📅 イベント情報</h2>
+      <button class="btn" data-action="new-events">＋ 新規追加</button>
+    </div>
+    <div id="form-events"></div>
+    <div class="list" id="list-events"><div class="loading">読み込み中…</div></div>
   </div>
 
-  <div class="footer">えんびゃれ 管理画面 v2.0 ─ Powered by microCMS</div>
+  <!-- 参加者の声 -->
+  <div class="panel hidden" id="panel-voices">
+    <div class="panel-head">
+      <h2>💬 参加者の声</h2>
+      <button class="btn" data-action="new-voices">＋ 新規追加</button>
+    </div>
+    <div id="form-voices"></div>
+    <div class="list" id="list-voices"><div class="loading">読み込み中…</div></div>
+  </div>
+
+  <!-- 写真 -->
+  <div class="panel hidden" id="panel-gallery">
+    <div class="panel-head">
+      <h2>🖼️ 写真ギャラリー</h2>
+      <button class="btn" data-action="new-gallery">＋ 新規追加</button>
+    </div>
+    <div id="form-gallery"></div>
+    <div class="gallery-list" id="list-gallery"><div class="loading">読み込み中…</div></div>
+  </div>
+
 </div>
+
+<div class="toast-wrap" id="toastWrap"></div>
 
 <script>
 (function() {
+  // ====== 設定 ======
   const PASSWORD = 'ennbyare2026';
   const STORAGE_KEY = 'ennbyare-manage-auth';
   const MICROCMS = {
@@ -211,71 +297,483 @@
     key:  'a02rDqoI1hiFttO1SkZ8Uy0Wu9OGcwlk1Oyi'
   };
 
-  const gate = document.getElementById('gate');
-  const app  = document.getElementById('app');
-  const err  = document.getElementById('err');
+  // ====== ユーティリティ ======
+  function $(id) { return document.getElementById(id); }
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"\']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"\'":'&#39;'}[c]));
+  }
+  function toast(msg, type) {
+    const wrap = $('toastWrap');
+    const el = document.createElement('div');
+    el.className = 'toast' + (type === 'err' ? ' err' : '');
+    el.textContent = msg;
+    wrap.appendChild(el);
+    setTimeout(() => { el.style.transition = 'opacity 0.3s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }, 3000);
+  }
 
+  // ====== API ヘルパー ======
+  async function apiGet(endpoint, params) {
+    const qs = new URLSearchParams(Object.assign({ limit: 100, orders: 'createdAt' }, params || {})).toString();
+    const r = await fetch(`${MICROCMS.base}/${endpoint}?${qs}`, {
+      headers: { 'X-MICROCMS-API-KEY': MICROCMS.key }
+    });
+    if (!r.ok) throw new Error('GET ' + endpoint + ' failed: ' + r.status);
+    return r.json();
+  }
+  async function apiPost(endpoint, data) {
+    const r = await fetch(`${MICROCMS.base}/${endpoint}`, {
+      method: 'POST',
+      headers: { 'X-MICROCMS-API-KEY': MICROCMS.key, 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!r.ok) throw new Error('POST ' + endpoint + ' failed: ' + r.status);
+    return r.json();
+  }
+  async function apiPatch(endpoint, id, data) {
+    const r = await fetch(`${MICROCMS.base}/${endpoint}/${id}`, {
+      method: 'PATCH',
+      headers: { 'X-MICROCMS-API-KEY': MICROCMS.key, 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!r.ok) throw new Error('PATCH ' + endpoint + '/' + id + ' failed: ' + r.status);
+    return r.json();
+  }
+  async function apiDelete(endpoint, id) {
+    const r = await fetch(`${MICROCMS.base}/${endpoint}/${id}`, {
+      method: 'DELETE',
+      headers: { 'X-MICROCMS-API-KEY': MICROCMS.key }
+    });
+    if (!r.ok && r.status !== 202) throw new Error('DELETE ' + endpoint + '/' + id + ' failed: ' + r.status);
+    return true;
+  }
+  async function apiPostMultipart(endpoint, formData) {
+    const r = await fetch(`${MICROCMS.base}/${endpoint}`, {
+      method: 'POST',
+      headers: { 'X-MICROCMS-API-KEY': MICROCMS.key },
+      body: formData
+    });
+    if (!r.ok) throw new Error('POST(multipart) ' + endpoint + ' failed: ' + r.status);
+    return r.json();
+  }
+  async function apiPatchMultipart(endpoint, id, formData) {
+    const r = await fetch(`${MICROCMS.base}/${endpoint}/${id}`, {
+      method: 'PATCH',
+      headers: { 'X-MICROCMS-API-KEY': MICROCMS.key },
+      body: formData
+    });
+    if (!r.ok) throw new Error('PATCH(multipart) ' + endpoint + '/' + id + ' failed: ' + r.status);
+    return r.json();
+  }
+
+  // ====== 認証 ======
   function showApp() {
-    gate.classList.add('hidden');
-    app.classList.remove('hidden');
-    loadCounts();
+    $('gate').classList.add('hidden');
+    $('app').classList.remove('hidden');
+    refreshAll();
   }
   function showGate() {
-    app.classList.add('hidden');
-    gate.classList.remove('hidden');
-    document.getElementById('pw').value = '';
-    err.textContent = '';
+    $('app').classList.add('hidden');
+    $('gate').classList.remove('hidden');
+    $('pw').value = ''; $('gateErr').textContent = '';
   }
+  if (sessionStorage.getItem(STORAGE_KEY) === '1') showApp();
 
-  if (sessionStorage.getItem(STORAGE_KEY) === '1') {
-    showApp();
-  }
-
-  document.getElementById('gateForm').addEventListener('submit', e => {
+  $('gateForm').addEventListener('submit', e => {
     e.preventDefault();
-    const pw = document.getElementById('pw').value;
-    if (pw === PASSWORD) {
+    if ($('pw').value === PASSWORD) {
       sessionStorage.setItem(STORAGE_KEY, '1');
-      err.textContent = '';
-      showApp();
+      $('gateErr').textContent = ''; showApp();
     } else {
-      err.textContent = 'パスワードが違います';
+      $('gateErr').textContent = 'パスワードが違います';
     }
   });
-
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    sessionStorage.removeItem(STORAGE_KEY);
-    showGate();
+  $('logoutBtn').addEventListener('click', () => {
+    sessionStorage.removeItem(STORAGE_KEY); showGate();
   });
 
-  async function fetchCount(endpoint) {
-    try {
-      const r = await fetch(`${MICROCMS.base}/${endpoint}?limit=0`, {
-        headers: { 'X-MICROCMS-API-KEY': MICROCMS.key }
+  // ====== タブ切り替え ======
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
+      ['events','voices','gallery'].forEach(name => {
+        $('panel-' + name).classList.toggle('hidden', name !== target);
       });
-      if (!r.ok) return null;
-      const data = await r.json();
-      return data.totalCount;
-    } catch(e) {
-      console.warn('count fetch failed', endpoint, e);
-      return null;
+      // 開いた時にフォームを閉じる
+      ['events','voices','gallery'].forEach(name => $('form-' + name).innerHTML = '');
+    });
+  });
+
+  // ====== events ======
+  function renderEventsList(items) {
+    const wrap = $('list-events');
+    if (!items.length) { wrap.innerHTML = '<div class="empty">登録なし。「＋ 新規追加」から追加してください。</div>'; return; }
+    wrap.innerHTML = items.map(ev => `
+      <div class="item">
+        <div class="item-head">
+          <div class="item-title">${escapeHtml(ev.name)}</div>
+          <div class="item-actions">
+            <button class="btn btn-sm" data-edit="events" data-id="${escapeHtml(ev.id)}">編集</button>
+            <button class="btn btn-sm btn-danger" data-del="events" data-id="${escapeHtml(ev.id)}">削除</button>
+          </div>
+        </div>
+        <div class="item-body">
+          <span class="badge">${escapeHtml(ev.day)} ${escapeHtml(ev.monthYear)}</span>
+          <span class="badge">${escapeHtml(ev.tag)}</span>
+          <span class="badge">${escapeHtml(ev.status)}</span>
+          ${ev.meta ? `<div class="row" style="white-space:pre-line">${escapeHtml(ev.meta)}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+  function showEventForm(existing) {
+    const isEdit = !!existing;
+    const e = existing || { day:'', monthYear:'', tag:'', name:'', meta:'', status:'', statusType:'plan' };
+    $('form-events').innerHTML = `
+      <div class="form-card">
+        <h3>${isEdit ? '✏️ イベント編集' : '＋ 新規イベント'}</h3>
+        <div class="field-row">
+          <div class="field">
+            <label>日（数字2桁）</label>
+            <input type="text" id="ev-day" value="${escapeHtml(e.day)}" placeholder="例: 05">
+          </div>
+          <div class="field">
+            <label>月/年</label>
+            <input type="text" id="ev-monthYear" value="${escapeHtml(e.monthYear)}" placeholder="例: MAY 2026">
+          </div>
+        </div>
+        <div class="field">
+          <label>イベント名</label>
+          <input type="text" id="ev-name" value="${escapeHtml(e.name)}" placeholder="例: 春の農業体験">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>タグ</label>
+            <input type="text" id="ev-tag" value="${escapeHtml(e.tag)}" placeholder="例: 農業体験">
+          </div>
+          <div class="field">
+            <label>ステータス種別</label>
+            <select id="ev-statusType">
+              <option value="done" ${e.statusType==='done'?'selected':''}>done（開催済）</option>
+              <option value="soon" ${e.statusType==='soon'?'selected':''}>soon（近日開催）</option>
+              <option value="plan" ${e.statusType==='plan'?'selected':''}>plan（予定・募集中）</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>ステータス表示テキスト</label>
+          <input type="text" id="ev-status" value="${escapeHtml(e.status)}" placeholder="例: 開催済 / 近日開催 / 参加者募集中">
+        </div>
+        <div class="field">
+          <label>場所・時間（改行区切り）</label>
+          <textarea id="ev-meta" placeholder="例:&#10;📍 福島県只見町&#10;🕙 10:00〜16:00">${escapeHtml(e.meta)}</textarea>
+          <div class="help">複数行入力可。1行ずつアイコン付きで表示されます。</div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" data-cancel="events">キャンセル</button>
+          <button class="btn btn-ok" data-save="events" data-id="${isEdit ? escapeHtml(existing.id) : ''}">${isEdit ? '更新' : '追加'}</button>
+        </div>
+      </div>
+    `;
+    $('form-events').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  async function saveEvent(id) {
+    const data = {
+      day:        $('ev-day').value.trim(),
+      monthYear:  $('ev-monthYear').value.trim(),
+      tag:        $('ev-tag').value.trim(),
+      name:       $('ev-name').value.trim(),
+      meta:       $('ev-meta').value,
+      status:     $('ev-status').value.trim(),
+      statusType: $('ev-statusType').value
+    };
+    if (!data.day || !data.monthYear || !data.name || !data.tag || !data.status) {
+      toast('必須項目（日・月年・イベント名・タグ・ステータス）が空です', 'err'); return;
+    }
+    try {
+      if (id) { await apiPatch('events', id, data); toast('イベントを更新しました'); }
+      else    { await apiPost('events', data); toast('イベントを追加しました'); }
+      $('form-events').innerHTML = '';
+      loadEvents();
+    } catch(err) { console.error(err); toast('保存に失敗しました: ' + err.message, 'err'); }
+  }
+  async function loadEvents() {
+    try {
+      const data = await apiGet('events');
+      renderEventsList(data.contents);
+      $('cnt-events').textContent = data.totalCount;
+    } catch(err) {
+      console.error(err); $('list-events').innerHTML = '<div class="empty">読み込み失敗</div>';
     }
   }
 
-  async function loadCounts() {
-    const targets = [
-      { id: 'countEvents',  ep: 'events'  },
-      { id: 'countVoices',  ep: 'voices'  },
-      { id: 'countGallery', ep: 'gallery' }
-    ];
-    for (const t of targets) {
-      const wrap = document.getElementById(t.id);
-      const num  = wrap.querySelector('.num');
-      const n = await fetchCount(t.ep);
-      wrap.classList.remove('loading');
-      num.textContent = (n === null) ? '取得失敗' : (n + ' 件');
+  // ====== voices ======
+  function renderVoicesList(items) {
+    const wrap = $('list-voices');
+    if (!items.length) { wrap.innerHTML = '<div class="empty">登録なし。</div>'; return; }
+    wrap.innerHTML = items.map(v => `
+      <div class="item">
+        <div class="item-head">
+          <div class="item-title">${escapeHtml(v.icon || '🌸')} ${escapeHtml(v.name)} <span style="color:var(--muted);font-weight:normal;font-size:0.85em">／ ${escapeHtml(v.attr)}</span></div>
+          <div class="item-actions">
+            <button class="btn btn-sm" data-edit="voices" data-id="${escapeHtml(v.id)}">編集</button>
+            <button class="btn btn-sm btn-danger" data-del="voices" data-id="${escapeHtml(v.id)}">削除</button>
+          </div>
+        </div>
+        <div class="item-body">${escapeHtml(v.text)}</div>
+      </div>
+    `).join('');
+  }
+  function showVoiceForm(existing) {
+    const isEdit = !!existing;
+    const v = existing || { icon:'', name:'', attr:'', text:'', shortText:'' };
+    $('form-voices').innerHTML = `
+      <div class="form-card">
+        <h3>${isEdit ? '✏️ 参加者の声 編集' : '＋ 新規参加者の声'}</h3>
+        <div class="field-row">
+          <div class="field">
+            <label>アイコン絵文字</label>
+            <input type="text" id="v-icon" value="${escapeHtml(v.icon)}" placeholder="例: 🌸 ⛰️ 🎯">
+          </div>
+          <div class="field">
+            <label>名前</label>
+            <input type="text" id="v-name" value="${escapeHtml(v.name)}" placeholder="例: 白水 ゆづさ">
+          </div>
+        </div>
+        <div class="field">
+          <label>所属（大学・参加歴）</label>
+          <input type="text" id="v-attr" value="${escapeHtml(v.attr)}" placeholder="例: 会津短期大学 2年 ／ 初参加">
+        </div>
+        <div class="field">
+          <label>感想本文</label>
+          <textarea id="v-text" placeholder="本人の感想を入力">${escapeHtml(v.text)}</textarea>
+        </div>
+        <div class="field">
+          <label>短縮版（任意）</label>
+          <textarea id="v-shortText" placeholder="モバイル等で使われる短縮テキスト（任意）">${escapeHtml(v.shortText)}</textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" data-cancel="voices">キャンセル</button>
+          <button class="btn btn-ok" data-save="voices" data-id="${isEdit ? escapeHtml(existing.id) : ''}">${isEdit ? '更新' : '追加'}</button>
+        </div>
+      </div>
+    `;
+    $('form-voices').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  async function saveVoice(id) {
+    const data = {
+      icon:      $('v-icon').value.trim(),
+      name:      $('v-name').value.trim(),
+      attr:      $('v-attr').value.trim(),
+      text:      $('v-text').value,
+      shortText: $('v-shortText').value
+    };
+    if (!data.name || !data.text || !data.attr) {
+      toast('必須項目（名前・所属・感想本文）が空です', 'err'); return;
+    }
+    try {
+      if (id) { await apiPatch('voices', id, data); toast('参加者の声を更新しました'); }
+      else    { await apiPost('voices', data); toast('参加者の声を追加しました'); }
+      $('form-voices').innerHTML = '';
+      loadVoices();
+    } catch(err) { console.error(err); toast('保存に失敗しました: ' + err.message, 'err'); }
+  }
+  async function loadVoices() {
+    try {
+      const data = await apiGet('voices');
+      renderVoicesList(data.contents);
+      $('cnt-voices').textContent = data.totalCount;
+    } catch(err) {
+      console.error(err); $('list-voices').innerHTML = '<div class="empty">読み込み失敗</div>';
     }
   }
+
+  // ====== gallery ======
+  function renderGalleryList(items) {
+    const wrap = $('list-gallery');
+    if (!items.length) { wrap.innerHTML = '<div class="empty">写真が登録されていません。「＋ 新規追加」から写真をアップロードしてください。</div>'; return; }
+    wrap.innerHTML = items.map(p => `
+      <div class="gallery-item">
+        <img src="${escapeHtml((p.image && p.image.url) || '')}" alt="${escapeHtml(p.caption || '')}">
+        <div class="info">
+          <div class="caption">${escapeHtml(p.caption || '(キャプションなし)')}</div>
+          <div class="gallery-actions">
+            <button class="btn btn-sm" data-edit="gallery" data-id="${escapeHtml(p.id)}">編集</button>
+            <button class="btn btn-sm btn-danger" data-del="gallery" data-id="${escapeHtml(p.id)}">削除</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+  function showGalleryForm(existing) {
+    const isEdit = !!existing;
+    const g = existing || { image: null, caption: '' };
+    $('form-gallery').innerHTML = `
+      <div class="form-card">
+        <h3>${isEdit ? '✏️ 写真を編集' : '＋ 新規写真'}</h3>
+        ${isEdit && g.image && g.image.url ? `
+          <div class="field">
+            <label>現在の画像</label>
+            <div class="current-img"><img src="${escapeHtml(g.image.url)}" alt=""></div>
+          </div>` : ''}
+        <div class="field">
+          <label>画像ファイル ${isEdit ? '（変更しない場合は空のまま）' : ''}</label>
+          <input type="file" id="g-image" accept="image/*">
+          <div class="img-preview hidden" id="g-preview"><img id="g-preview-img" alt=""></div>
+        </div>
+        <div class="field">
+          <label>キャプション・代替テキスト</label>
+          <input type="text" id="g-caption" value="${escapeHtml(g.caption)}" placeholder="例: 集合写真 / 農作業の様子">
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" data-cancel="gallery">キャンセル</button>
+          <button class="btn btn-ok" data-save="gallery" data-id="${isEdit ? escapeHtml(existing.id) : ''}">${isEdit ? '更新' : '追加'}</button>
+        </div>
+      </div>
+    `;
+    const imgInput = $('g-image');
+    imgInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        $('g-preview-img').src = url;
+        $('g-preview').classList.remove('hidden');
+      } else {
+        $('g-preview').classList.add('hidden');
+      }
+    });
+    $('form-gallery').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  async function saveGallery(id) {
+    const file = $('g-image').files[0];
+    const caption = $('g-caption').value.trim();
+    const isEdit = !!id;
+    if (!isEdit && !file) { toast('新規追加には画像ファイルが必要です', 'err'); return; }
+    try {
+      const fd = new FormData();
+      if (file) fd.append('image', file);
+      fd.append('caption', caption);
+      if (isEdit) { await apiPatchMultipart('gallery', id, fd); toast('写真を更新しました'); }
+      else        { await apiPostMultipart('gallery', fd);    toast('写真を追加しました'); }
+      $('form-gallery').innerHTML = '';
+      loadGallery();
+    } catch(err) { console.error(err); toast('保存に失敗しました: ' + err.message, 'err'); }
+  }
+  async function loadGallery() {
+    try {
+      const data = await apiGet('gallery');
+      renderGalleryList(data.contents);
+      $('cnt-gallery').textContent = data.totalCount;
+    } catch(err) {
+      console.error(err); $('list-gallery').innerHTML = '<div class="empty">読み込み失敗</div>';
+    }
+  }
+
+  // ====== イベントデリゲーション ======
+  let cache = { events: [], voices: [], gallery: [] };
+
+  async function fetchAndCache(endpoint) {
+    const data = await apiGet(endpoint);
+    cache[endpoint] = data.contents;
+    return data;
+  }
+
+  document.body.addEventListener('click', async e => {
+    const t = e.target.closest('[data-action], [data-edit], [data-del], [data-save], [data-cancel]');
+    if (!t) return;
+
+    // 新規追加
+    if (t.dataset.action) {
+      const kind = t.dataset.action.replace('new-', '');
+      if (kind === 'events')  showEventForm(null);
+      if (kind === 'voices')  showVoiceForm(null);
+      if (kind === 'gallery') showGalleryForm(null);
+      return;
+    }
+
+    // 編集
+    if (t.dataset.edit) {
+      const endpoint = t.dataset.edit;
+      const id = t.dataset.id;
+      const item = cache[endpoint].find(x => x.id === id);
+      if (!item) return toast('データが見つかりません', 'err');
+      if (endpoint === 'events')  showEventForm(item);
+      if (endpoint === 'voices')  showVoiceForm(item);
+      if (endpoint === 'gallery') showGalleryForm(item);
+      return;
+    }
+
+    // キャンセル
+    if (t.dataset.cancel) {
+      $('form-' + t.dataset.cancel).innerHTML = '';
+      return;
+    }
+
+    // 保存
+    if (t.dataset.save) {
+      const kind = t.dataset.save;
+      const id = t.dataset.id || '';
+      t.disabled = true; t.textContent = '保存中…';
+      try {
+        if (kind === 'events')  await saveEvent(id);
+        if (kind === 'voices')  await saveVoice(id);
+        if (kind === 'gallery') await saveGallery(id);
+      } finally {
+        t.disabled = false;
+      }
+      return;
+    }
+
+    // 削除
+    if (t.dataset.del) {
+      if (!confirm('本当に削除しますか？\n（取り消しできません）')) return;
+      const endpoint = t.dataset.del;
+      const id = t.dataset.id;
+      try {
+        await apiDelete(endpoint, id);
+        toast('削除しました');
+        if (endpoint === 'events') loadEvents();
+        if (endpoint === 'voices') loadVoices();
+        if (endpoint === 'gallery') loadGallery();
+      } catch(err) { console.error(err); toast('削除に失敗しました: ' + err.message, 'err'); }
+    }
+  });
+
+  // ====== 起動時 ======
+  async function refreshAll() {
+    // 3つを並列でロード
+    const [ev, vo, ga] = await Promise.allSettled([
+      fetchAndCache('events').then(d => { renderEventsList(d.contents);  $('cnt-events').textContent  = d.totalCount; }),
+      fetchAndCache('voices').then(d => { renderVoicesList(d.contents);  $('cnt-voices').textContent  = d.totalCount; }),
+      fetchAndCache('gallery').then(d => { renderGalleryList(d.contents); $('cnt-gallery').textContent = d.totalCount; })
+    ]);
+  }
+
+  // loadXxx を fetchAndCache 経由に統一
+  const _loadEvents = loadEvents;
+  loadEvents = async function() {
+    try {
+      const data = await fetchAndCache('events');
+      renderEventsList(data.contents);
+      $('cnt-events').textContent = data.totalCount;
+    } catch(err) { console.error(err); $('list-events').innerHTML = '<div class="empty">読み込み失敗</div>'; }
+  };
+  const _loadVoices = loadVoices;
+  loadVoices = async function() {
+    try {
+      const data = await fetchAndCache('voices');
+      renderVoicesList(data.contents);
+      $('cnt-voices').textContent = data.totalCount;
+    } catch(err) { console.error(err); $('list-voices').innerHTML = '<div class="empty">読み込み失敗</div>'; }
+  };
+  const _loadGallery = loadGallery;
+  loadGallery = async function() {
+    try {
+      const data = await fetchAndCache('gallery');
+      renderGalleryList(data.contents);
+      $('cnt-gallery').textContent = data.totalCount;
+    } catch(err) { console.error(err); $('list-gallery').innerHTML = '<div class="empty">読み込み失敗</div>'; }
+  };
 })();
 </script>
 </body>
