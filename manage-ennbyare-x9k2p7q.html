@@ -591,10 +591,10 @@
   // ====== gallery ======
   function renderGalleryList(items) {
     const wrap = $('list-gallery');
-    if (!items.length) { wrap.innerHTML = '<div class="empty">写真が登録されていません。「＋ 新規追加」から写真をアップロードしてください。</div>'; return; }
+    if (!items.length) { wrap.innerHTML = '<div class="empty">写真が登録されていません。「＋ 新規追加」から写真URLを登録してください。</div>'; return; }
     wrap.innerHTML = items.map(p => `
       <div class="gallery-item">
-        <img src="${escapeHtml((p.image && p.image.url) || '')}" alt="${escapeHtml(p.caption || '')}">
+        <img src="${escapeHtml(p.imageUrl || '')}" alt="${escapeHtml(p.caption || '')}">
         <div class="info">
           <div class="caption">${escapeHtml(p.caption || '(キャプションなし)')}</div>
           <div class="gallery-actions">
@@ -607,18 +607,19 @@
   }
   function showGalleryForm(existing) {
     const isEdit = !!existing;
-    const g = existing || { image: null, caption: '' };
+    const g = existing || { imageUrl: '', caption: '' };
     $('form-gallery').innerHTML = `
       <div class="form-card">
         <h3>${isEdit ? '✏️ 写真を編集' : '＋ 新規写真'}</h3>
-        ${isEdit && g.image && g.image.url ? `
+        ${isEdit && g.imageUrl ? `
           <div class="field">
             <label>現在の画像</label>
-            <div class="current-img"><img src="${escapeHtml(g.image.url)}" alt=""></div>
+            <div class="current-img"><img src="${escapeHtml(g.imageUrl)}" alt=""></div>
           </div>` : ''}
         <div class="field">
-          <label>画像ファイル ${isEdit ? '（変更しない場合は空のまま）' : ''}</label>
-          <input type="file" id="g-image" accept="image/*">
+          <label>画像URL</label>
+          <input type="text" id="g-imageUrl" value="${escapeHtml(g.imageUrl)}" placeholder="例: https://t6363304-oss.github.io/ennbyare/images/17.jpg">
+          <div class="help">GitHub Pages / Imgur / Cloudinary など、公開されている画像URLを貼り付け</div>
           <div class="img-preview hidden" id="g-preview"><img id="g-preview-img" alt=""></div>
         </div>
         <div class="field">
@@ -631,30 +632,28 @@
         </div>
       </div>
     `;
-    const imgInput = $('g-image');
-    imgInput.addEventListener('change', e => {
-      const file = e.target.files[0];
-      if (file) {
-        const url = URL.createObjectURL(file);
+    const urlInput = $('g-imageUrl');
+    function updatePreview() {
+      const url = urlInput.value.trim();
+      if (url) {
         $('g-preview-img').src = url;
         $('g-preview').classList.remove('hidden');
       } else {
         $('g-preview').classList.add('hidden');
       }
-    });
+    }
+    urlInput.addEventListener('input', updatePreview);
+    updatePreview();
     $('form-gallery').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
   async function saveGallery(id) {
-    const file = $('g-image').files[0];
-    const caption = $('g-caption').value.trim();
-    const isEdit = !!id;
-    if (!isEdit && !file) { toast('新規追加には画像ファイルが必要です', 'err'); return; }
+    const imageUrl = $('g-imageUrl').value.trim();
+    const caption  = $('g-caption').value.trim();
+    if (!imageUrl) { toast('画像URLを入力してください', 'err'); return; }
+    const data = { imageUrl, caption };
     try {
-      const fd = new FormData();
-      if (file) fd.append('image', file);
-      fd.append('caption', caption);
-      if (isEdit) { await apiPatchMultipart('gallery', id, fd); toast('写真を更新しました'); }
-      else        { await apiPostMultipart('gallery', fd);    toast('写真を追加しました'); }
+      if (id) { await apiPatch('gallery', id, data); toast('写真を更新しました'); }
+      else    { await apiPost('gallery', data); toast('写真を追加しました'); }
       $('form-gallery').innerHTML = '';
       loadGallery();
     } catch(err) { console.error(err); toast('保存に失敗しました: ' + err.message, 'err'); }

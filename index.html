@@ -1929,7 +1929,7 @@ if (hamburger && navMenu) {
     let items = [];
     if (cms && Array.isArray(cms.contents) && cms.contents.length > 0) {
       items = cms.contents.map(c => ({
-        src: (c.image && c.image.url) || '',
+        src: c.imageUrl || (c.image && c.image.url) || '',
         alt: c.caption || ''
       })).filter(x => x.src);
     }
