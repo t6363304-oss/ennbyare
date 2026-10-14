@@ -746,6 +746,60 @@
       font-weight: 600;
     }
 
+    /* ── ACHIEVEMENTS ── */
+    #achievements { background: var(--offwhite); }
+
+    .achv-head { text-align: center; max-width: 700px; margin: 0 auto 3.5rem; }
+    .achv-head .sec-lead { margin-top: 1.5rem; }
+
+    .achv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+    }
+
+    .achv-card {
+      background: var(--white);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .achv-photos { display: grid; grid-template-columns: 1fr; }
+    .achv-photos.two { grid-template-columns: 1fr 1fr; gap: 2px; }
+
+    .achv-photos img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .achv-body { padding: 1.4rem 1.5rem 1.7rem; }
+
+    .achv-num {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--green-bright);
+      font-weight: 600;
+    }
+
+    .achv-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--ink);
+      margin: 0.4rem 0 0.7rem;
+    }
+
+    .achv-desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 2;
+    }
+
     /* ── MEDIA ── */
     #media { background: var(--white); }
 
@@ -1349,6 +1403,7 @@
       .leader-inner { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
       .leader-photo { max-width: 320px; aspect-ratio: auto; height: 380px; }
       .media-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .achv-grid { grid-template-columns: 1fr 1fr; }
       .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
       .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
       .gp1,.gp2,.gp3,.gp4,.gp5,.gp6,.gp7,.gp8,.gp9 { grid-column: auto; grid-row: auto; height: 220px; }
@@ -1400,6 +1455,7 @@
       .gallery-section { padding: 5rem 1.2rem; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .act-grid { grid-template-columns: 1fr; }
+      .achv-grid { grid-template-columns: 1fr; }
       .act-header { grid-template-columns: 1fr; }
       .event-row { grid-template-columns: 80px 1fr; gap: 1.2rem; }
       .event-status { display: none; }
@@ -1434,6 +1490,7 @@
     <li><a href="#activities">活動内容</a></li>
     <li><a href="#events">イベント</a></li>
     <li><a href="#leader">代表</a></li>
+    <li><a href="#achievements">活動実績</a></li>
     <li><a href="#gallery">ギャラリー</a></li>
     <li><a href="#voices">参加者の声</a></li>
     <li><a href="media.html">メディア</a></li>
@@ -1639,6 +1696,80 @@
   </div>
 </section>
 
+<!-- ── ACHIEVEMENTS ── -->
+<section class="sec" id="achievements">
+  <div class="inner">
+    <div class="achv-head reveal">
+      <p class="sec-label">Achievements</p>
+      <h2 class="sec-title">これまでの<br>活動実績</h2>
+      <p class="sec-lead">町との連携から国政関係者との意見交換まで。<br>只見の未来のために、一歩ずつ積み重ねてきました。</p>
+    </div>
+    <div class="achv-grid">
+      <article class="achv-card reveal delay-1">
+        <div class="achv-photos">
+          <img src="images/achv-tadami-mayor.jpg" alt="只見町長・副町長と えんびゃれ代表" loading="lazy">
+        </div>
+        <div class="achv-body">
+          <p class="achv-num">01</p>
+          <h3 class="achv-title">只見町との連携</h3>
+          <p class="achv-desc">町長・副町長に活動を提案し、後援・連携体制を築きました。</p>
+        </div>
+      </article>
+      <article class="achv-card reveal delay-2">
+        <div class="achv-photos">
+          <img src="images/achv-summer-festival.jpg" alt="只見町夏祭りの様子" loading="lazy" style="object-position:center;">
+        </div>
+        <div class="achv-body">
+          <p class="achv-num">02</p>
+          <h3 class="achv-title">只見町夏祭りの開催</h3>
+          <p class="achv-desc">夏祭りの企画・運営をしました。</p>
+        </div>
+      </article>
+      <article class="achv-card reveal delay-3">
+        <div class="achv-photos">
+          <img src="images/achv-gasshuku.jpg" alt="只見町での合宿の様子" loading="lazy" style="object-position:center bottom;">
+        </div>
+        <div class="achv-body">
+          <p class="achv-num">03</p>
+          <h3 class="achv-title">合宿</h3>
+          <p class="achv-desc">只見町で複数回開催し、参加者から多くの「また来たい」という声が寄せられました。</p>
+        </div>
+      </article>
+      <article class="achv-card reveal delay-1">
+        <div class="achv-photos two">
+          <img src="images/achv-national-1.jpg" alt="国政関係者との意見交換" loading="lazy">
+          <img src="images/achv-national-2.jpg" alt="国政関係者との意見交換" loading="lazy">
+        </div>
+        <div class="achv-body">
+          <p class="achv-num">04</p>
+          <h3 class="achv-title">国政関係者との意見交換</h3>
+          <p class="achv-desc">黄川田仁志・前内閣府特命担当大臣、上杉謙太郎衆議院議員と地域の未来について意見を交わしました。</p>
+        </div>
+      </article>
+      <article class="achv-card reveal delay-2">
+        <div class="achv-photos">
+          <img src="images/achv-radio-fukushima.jpg" alt="ラジオ福島出演時の集合写真" loading="lazy">
+        </div>
+        <div class="achv-body">
+          <p class="achv-num">05</p>
+          <h3 class="achv-title">ラジオ福島への出演</h3>
+          <p class="achv-desc">番組を通して、えんびゃれの活動と只見町の魅力を発信しました。</p>
+        </div>
+      </article>
+      <article class="achv-card reveal delay-3">
+        <div class="achv-photos">
+          <img src="images/achv-team-start.jpg" alt="えんびゃれメンバーと地域の皆さんの集合写真" loading="lazy" style="object-position:center;">
+        </div>
+        <div class="achv-body">
+          <p class="achv-num">06</p>
+          <h3 class="achv-title">運営体制の確立</h3>
+          <p class="achv-desc">2025年5月に4チーム体制を整え、本格的な活動をスタートしました。</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <!-- ── MEDIA ── -->
 <section class="sec" id="media">
   <div class="inner">
@@ -1837,6 +1968,7 @@
       <li><a href="#activities">活動内容</a></li>
       <li><a href="#events">イベント</a></li>
       <li><a href="#leader">代表</a></li>
+      <li><a href="#achievements">活動実績</a></li>
       <li><a href="#gallery">ギャラリー</a></li>
       <li><a href="#contact">お問い合わせ</a></li>
     </ul>
