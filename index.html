@@ -142,13 +142,26 @@
 
     .nav-brand-name span { color: var(--sunset-light); }
 
+    .nav-brand, .nav-right { flex-shrink: 0; }
+    .nav-brand-name, .nav-cta { white-space: nowrap; }
+
     .nav-menu {
       display: flex;
-      gap: 2.2rem;
+      gap: clamp(1rem, 1.6vw, 2.2rem);
       list-style: none;
+      flex: 1;
+      min-width: 0;
+      margin-left: 1.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+    .nav-menu::-webkit-scrollbar { display: none; }
+    .nav-menu li { flex-shrink: 0; }
+    .nav-menu li:first-child { margin-left: auto; }
+    .nav-right { margin-left: 1.2rem; }
 
     .nav-menu a {
+      white-space: nowrap;
       font-size: 0.76rem;
       font-weight: 400;
       letter-spacing: 0.14em;
@@ -189,6 +202,23 @@
     }
 
     .nav-cta:hover { background: var(--sunset-light); }
+
+    @media (min-width: 769px) and (max-width: 1279px) {
+      nav { padding: 0 1.5rem; }
+      .nav-social { display: none; }
+      .nav-menu { gap: 1rem; margin-left: 1rem; }
+      .nav-menu a { letter-spacing: 0.04em; font-size: 0.72rem; }
+    }
+    @media (min-width: 769px) and (max-width: 1099px) {
+      .nav-brand-name { display: none; }
+      .nav-menu { gap: 0.8rem; }
+      .nav-menu a { font-size: 0.68rem; letter-spacing: 0; }
+    }
+    @media (min-width: 769px) and (max-width: 899px) {
+      .nav-right { display: none; }
+      .nav-menu { gap: 0.7rem; }
+    }
+
 
     /* ── HERO ── */
     .hero {
@@ -1406,13 +1436,23 @@
     }
 
     .footer-links {
+      order: 3;
+      flex-basis: 100%;
       display: flex;
-      gap: 2rem;
+      justify-content: center;
+      gap: clamp(1rem, 2vw, 2rem);
       list-style: none;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
     }
+    .footer-links::-webkit-scrollbar { display: none; }
+    .footer-links li { flex-shrink: 0; }
 
     .footer-links a {
+      white-space: nowrap;
       font-size: 0.76rem;
       color: rgba(255,255,255,0.4);
       text-decoration: none;
@@ -1517,8 +1557,8 @@
       .event-row { grid-template-columns: 80px 1fr; gap: 1.2rem; }
       .event-status { display: none; }
       .form-row { grid-template-columns: 1fr; }
-      .footer-top { flex-direction: column; gap: 2rem; }
-      .footer-links { gap: 1.2rem; }
+      .footer-top { gap: 1.5rem; }
+      .footer-links { gap: 1.2rem; justify-content: flex-start; }
       .cta-section { padding: 7rem 1.2rem; }
     }
   </style>
@@ -2103,7 +2143,9 @@
       <li><a href="#leader">代表</a></li>
       <li><a href="#achievements">活動実績</a></li>
       <li><a href="#gallery">ギャラリー</a></li>
+      <li><a href="#voices">参加者の声</a></li>
       <li><a href="#sponsors">協賛企業</a></li>
+      <li><a href="media.html">メディア</a></li>
       <li><a href="#contact">お問い合わせ</a></li>
     </ul>
     <div class="footer-socials">
