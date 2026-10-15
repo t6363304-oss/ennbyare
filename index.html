@@ -917,6 +917,52 @@
     .gp8 { grid-column: 4/7; grid-row: 3/4; }
     .gp9 { grid-column: 7/10; grid-row: 3/4; }
 
+    /* ── SPONSORS ── */
+    #sponsors { background: var(--white); }
+
+    .sponsors-head { text-align: center; max-width: 700px; margin: 0 auto 3rem; }
+    .sponsors-head .sec-lead { margin-top: 1.5rem; }
+
+    .sponsor-grid {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.8rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .sponsor-item {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.08);
+      height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem;
+    }
+
+    .sponsor-item img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .sponsor-text {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .sponsor-grid { grid-template-columns: repeat(2, 1fr); }
+      .sponsor-item { height: 80px; }
+    }
+
     /* ── SNS ── */
     .sns-section {
       background: var(--green);
@@ -1504,6 +1550,7 @@
     <li><a href="#achievements">活動実績</a></li>
     <li><a href="#gallery">ギャラリー</a></li>
     <li><a href="#voices">参加者の声</a></li>
+    <li><a href="#sponsors">協賛企業</a></li>
     <li><a href="media.html">メディア</a></li>
     <li><a href="#contact">お問い合わせ</a></li>
   </ul>
@@ -1869,6 +1916,61 @@
   </div>
 </section>
 
+<!-- ── SPONSORS ── -->
+<section class="sec" id="sponsors">
+  <div class="inner">
+    <div class="sponsors-head reveal">
+      <p class="sec-label">Sponsors</p>
+      <h2 class="sec-title">協賛企業</h2>
+      <p class="sec-lead">只見町夏祭りをはじめ、えんびゃれの活動は協賛企業の皆さまのご支援により実現しています。<br>心より感謝申し上げます。</p>
+    </div>
+    <ul class="sponsor-grid reveal">
+      <li class="sponsor-item"><img src="images/sponsors/himeji-rika.png" alt="ヒメジ理化株式会社" title="ヒメジ理化株式会社" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/kinujo.png" alt="KINUJO" title="KINUJO" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/unessun-resort.png" alt="ユネッサンリゾート（箱根小涌園）" title="ユネッサンリゾート（箱根小涌園）" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/asahi-motor.png" alt="朝日モーター" title="朝日モーター" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/risesapeur.png" alt="RISESAPEUR" title="RISESAPEUR" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/daikichi-links.png" alt="株式会社大吉リンクス" title="株式会社大吉リンクス" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/ougi-jidosha.png" alt="扇町自動車学校" title="扇町自動車学校" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/sanipak.png" alt="サニパック（sanipak）" title="サニパック（sanipak）" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/matai-tohoku.png" alt="マタイ東北株式会社" title="マタイ東北株式会社" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/beauty-nailer.png" alt="BEAUTY NAILER" title="BEAUTY NAILER" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/finetrack.png" alt="finetrack" title="finetrack" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/noji-kensetsu.png" alt="野地建設" title="野地建設" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/sakaemachi-osada.png" alt="株式会社栄町オサダ" title="株式会社栄町オサダ" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/ofurocafe-utatane.png" alt="おふろcafe utatane" title="おふろcafe utatane" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/aizu-factory.png" alt="AIZU FACTORY" title="AIZU FACTORY" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/sanpei-komuten.png" alt="三瓶工務店" title="三瓶工務店" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/yushin.png" alt="合同会社遊心" title="合同会社遊心" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/stod.png" alt="株式会社StoD" title="株式会社StoD" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/hakata-engyo.png" alt="伯方塩業株式会社" title="伯方塩業株式会社" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/sanbe-noen.png" alt="さんべ農園" title="さんべ農園" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/hakone-glass.png" alt="箱根ガラスの森美術館" title="箱根ガラスの森美術館" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/marusan.png" alt="マルサン（marusan）" title="マルサン（marusan）" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/green-bokujo.png" alt="伊香保グリーン牧場" title="伊香保グリーン牧場" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/hakone-kowakien-yunessun.png" alt="箱根小涌園ユネッサン" title="箱根小涌園ユネッサン" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/kigyo-kumiai-okuaizu.png" alt="企業組合奥会津" title="企業組合奥会津" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/tokan.png" alt="株式会社トーカン" title="株式会社トーカン" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/heiwa-seika.png" alt="平和製菓" title="平和製菓" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/ikarashi-tosou.png" alt="いからし塗装" title="いからし塗装" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/books-naniwa.png" alt="ブックスなにわ 会津若松店" title="ブックスなにわ 会津若松店" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/aizu-sake.png" alt="會津（会津酒造）" title="會津（会津酒造）" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/meito.png" alt="meito（名糖）" title="meito（名糖）" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/shellwomb.png" alt="SHELLWOMB" title="SHELLWOMB" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/pasela.png" alt="カラオケ&パーティー PASELA" title="カラオケ&パーティー PASELA" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/hakujuji.png" alt="白十字" title="白十字" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/shakai-fukushi.png" alt="社会福祉協議会" title="社会福祉協議会" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/lambda.png" alt="株式会社ラムダ（LAMBDA）" title="株式会社ラムダ（LAMBDA）" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/aizugas.png" alt="会津ガス株式会社（AIZUGAS）" title="会津ガス株式会社（AIZUGAS）" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/nagai-unso.png" alt="永井運送株式会社" title="永井運送株式会社" loading="lazy"></li>
+      <li class="sponsor-item"><img src="images/sponsors/minamiaizu-kanko.png" alt="みなみあいづまち観光物産協会" title="みなみあいづまち観光物産協会" loading="lazy"></li>
+      <li class="sponsor-item sponsor-text">銀河警備保障</li>
+      <li class="sponsor-item sponsor-text">ベスト学院</li>
+      <li class="sponsor-item sponsor-text">株式会社MOTTERU</li>
+    </ul>
+  </div>
+</section>
+
 <!-- ── SNS ── -->
 <div class="sns-section">
   <div class="sns-inner reveal">
@@ -2001,6 +2103,7 @@
       <li><a href="#leader">代表</a></li>
       <li><a href="#achievements">活動実績</a></li>
       <li><a href="#gallery">ギャラリー</a></li>
+      <li><a href="#sponsors">協賛企業</a></li>
       <li><a href="#contact">お問い合わせ</a></li>
     </ul>
     <div class="footer-socials">
