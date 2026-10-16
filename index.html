@@ -902,6 +902,68 @@
       font-style: normal;
     }
 
+    .news-head {
+      margin: 5rem 0 2rem;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .news-head h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .news-head span { font-size: 0.8rem; color: var(--muted); }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .news-card {
+      display: block;
+      background: var(--offwhite);
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .news-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,0.12); }
+
+    .news-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .news-card-body { padding: 1.2rem 1.3rem 1.4rem; }
+
+    .news-outlet {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--sunset);
+      font-weight: 500;
+    }
+
+    .news-card h4 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.6;
+      margin: 0.4rem 0 0.6rem;
+    }
+
+    .news-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.9; }
+
     /* ── GALLERY ── */
     .gallery-section { background: var(--black); padding: 8rem 1.5rem; }
 
@@ -1505,10 +1567,16 @@
       .leader-inner { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
       .leader-photo { max-width: 320px; aspect-ratio: auto; height: 380px; }
       .media-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .news-grid { grid-template-columns: repeat(2, 1fr); }
       .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
       .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
       .gp1,.gp2,.gp3,.gp4,.gp5,.gp6,.gp7,.gp8,.gp9 { grid-column: auto; grid-row: auto; height: 220px; }
       .about-pillars { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .news-grid { grid-template-columns: 1fr; }
+      .news-head { margin-top: 3.5rem; }
     }
 
     @media (max-width: 768px) {
@@ -1902,12 +1970,59 @@
       <div class="reveal-right">
         <p class="sec-label media-label">Media Coverage</p>
         <h3 class="media-headline">「若者が結ぶ地域交流<br>大学生が只見で奉仕、討論会」</h3>
-        <p class="media-body">会津大や大正大の学生らでつくる団体「えんびゃれ」の活動が地方紙に掲載。農業体験から討論会まで、学生と地域住民が本気で向き合う姿が注目された。県内外の学生延べ約40人が参加した。</p>
+        <p class="media-body">会津大や大正大の学生らでつくる団体「えんびゃれ」の活動が福島民報に掲載。農業体験から討論会まで、学生と地域住民が本気で向き合う姿が注目された。県内外の学生延べ約40人が参加した。</p>
         <div class="media-pullquote">
           <p>「やりたいことを受け入れてくれた。集落の人たちが多く来てくれながら、楽しんで活動を続けたい」</p>
           <cite>── 代表 堀金康太</cite>
         </div>
       </div>
+    </div>
+
+    <div class="news-head reveal">
+      <h3>そのほかの掲載記事</h3>
+      <span>福島民報 ／ 画像をクリックすると記事を拡大して読めます</span>
+    </div>
+    <div class="news-grid reveal">
+      <a class="news-card" href="images/news/matsuri.jpg" target="_blank" rel="noopener">
+        <img src="images/news/matsuri.jpg" alt="福島民報の記事「只見で学生企画の初祭り」" loading="lazy">
+        <div class="news-card-body">
+          <p class="news-outlet">福島民報</p>
+          <h4>只見で学生企画の初祭り<br>住民協力、踊りの輪広がる</h4>
+          <p>えんびゃれが企画した只見夏まつり。県内外の学生約20人が参加し、住民の協力を得て盆踊りの輪が広がった。</p>
+        </div>
+      </a>
+      <a class="news-card" href="images/news/letter.jpg" target="_blank" rel="noopener">
+        <img src="images/news/letter.jpg" alt="福島民報の読者投稿「この夏、只見に『えんびゃれ』」" loading="lazy">
+        <div class="news-card-body">
+          <p class="news-outlet">福島民報 読者投稿</p>
+          <h4>この夏、只見に「えんびゃれ」</h4>
+          <p>南会津町の読者から、清掃活動や田植え、夏祭りの企画に取り組む学生たちへエールが寄せられた。</p>
+        </div>
+      </a>
+      <a class="news-card" href="images/news/abukuma.jpg" target="_blank" rel="noopener">
+        <img src="images/news/abukuma.jpg" alt="福島民報のコラム「あぶくま抄」" loading="lazy">
+        <div class="news-card-body">
+          <p class="news-outlet">福島民報 コラム「あぶくま抄」</p>
+          <h4>「えんびゃれ」に込めた古里への想い</h4>
+          <p>只見弁で「一緒に行きましょう」を意味する団体名の由来や、町を盛り上げたいという代表の想いが紹介された。</p>
+        </div>
+      </a>
+      <a class="news-card" href="images/news/suiro.jpg" target="_blank" rel="noopener">
+        <img src="images/news/suiro.jpg" alt="福島民報の記事「上福井集落で水路清掃」" loading="lazy">
+        <div class="news-card-body">
+          <p class="news-outlet">福島民報</p>
+          <h4>会津大、大正大生らの「えんびゃれ」<br>上福井集落で水路清掃</h4>
+          <p>上福井集落での水路清掃やしめ縄づくりに36人が参加。住民から「作業を担ってくれて助かる」との声が寄せられた。</p>
+        </div>
+      </a>
+      <a class="news-card" href="images/news/setsuritsu.jpg" target="_blank" rel="noopener">
+        <img src="images/news/setsuritsu.jpg" alt="福島民報の記事「学生集め古里手助け」" loading="lazy">
+        <div class="news-card-body">
+          <p class="news-outlet">福島民報</p>
+          <h4>学生集め古里手助け<br>大正大×会津大「えんびゃれ」設立</h4>
+          <p>代表・堀金康太と副代表・田代幸己による団体設立を紹介。夏のカヤ刈り、冬の除雪など年間を通した活動計画が掲載された。</p>
+        </div>
+      </a>
     </div>
   </div>
 </section>

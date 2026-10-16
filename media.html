@@ -405,6 +405,23 @@
   .delay-1 { transition-delay: 0.15s; }
   .delay-2 { transition-delay: 0.3s; }
 
+  /* ── ARTICLES ── */
+  .articles { max-width: 1100px; margin: 0 auto; padding: 2rem 3rem 7rem; }
+  .articles-head { text-align: center; margin-bottom: 3rem; }
+  .articles-head span { font-size: 0.72rem; letter-spacing: 0.3em; color: var(--gold); }
+  .articles-head h2 { font-family: 'Noto Serif JP', serif; font-size: 1.8rem; font-weight: 700; margin-top: 0.6rem; }
+  .articles-head p { font-size: 0.82rem; color: var(--gray); margin-top: 0.6rem; }
+  .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; }
+  .article-card { display: block; background: var(--green); border: 1px solid var(--line); color: inherit; text-decoration: none; transition: transform 0.3s, border-color 0.3s; }
+  .article-card:hover { transform: translateY(-4px); border-color: var(--gold); }
+  .article-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center top; display: block; }
+  .article-card-body { padding: 1.2rem 1.3rem 1.5rem; }
+  .article-outlet { font-size: 0.68rem; letter-spacing: 0.15em; color: var(--orange); }
+  .article-card h3 { font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 700; line-height: 1.6; margin: 0.4rem 0 0.6rem; }
+  .article-card p { font-size: 0.8rem; color: var(--gray); line-height: 1.9; }
+  @media (max-width: 1024px) { .articles-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .articles { padding: 1rem 1.2rem 5rem; } .articles-grid { grid-template-columns: 1fr; } }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     nav { padding: 1rem 1.2rem; }
@@ -505,6 +522,65 @@
 
 </section>
 
+<!-- ── ARTICLES ── -->
+<section class="articles reveal">
+  <div class="articles-head">
+    <span>ARTICLES</span>
+    <h2>掲載記事一覧</h2>
+    <p>画像をクリックすると記事を拡大して読めます</p>
+  </div>
+  <div class="articles-grid">
+    <a class="article-card" href="images/1.jpg" target="_blank" rel="noopener">
+      <img src="images/1.jpg" alt="福島民報の掲載記事「若者が結ぶ地域交流 大学生が只見で奉仕、討論会」" loading="lazy">
+      <div class="article-card-body">
+        <p class="article-outlet">福島民報</p>
+        <h3>若者が結ぶ地域交流<br>大学生が只見で奉仕、討論会</h3>
+        <p>県内外の学生延べ約40人が只見町を訪れ、水路の土砂上げや住民との討論会に励んだ様子が紹介された。</p>
+      </div>
+    </a>
+    <a class="article-card" href="images/news/matsuri.jpg" target="_blank" rel="noopener">
+      <img src="images/news/matsuri.jpg" alt="福島民報の掲載記事「只見で学生企画の初祭り 住民協力、踊りの輪広がる」" loading="lazy">
+      <div class="article-card-body">
+        <p class="article-outlet">福島民報</p>
+        <h3>只見で学生企画の初祭り<br>住民協力、踊りの輪広がる</h3>
+        <p>えんびゃれが企画した只見夏まつり。県内外の学生約20人が参加し、住民の協力を得て盆踊りの輪が広がった。</p>
+      </div>
+    </a>
+    <a class="article-card" href="images/news/letter.jpg" target="_blank" rel="noopener">
+      <img src="images/news/letter.jpg" alt="福島民報の掲載記事「この夏、只見に「えんびゃれ」」" loading="lazy">
+      <div class="article-card-body">
+        <p class="article-outlet">福島民報 読者投稿</p>
+        <h3>この夏、只見に「えんびゃれ」</h3>
+        <p>南会津町の読者から、清掃活動や田植え、夏祭りの企画に取り組む学生たちへエールが寄せられた。</p>
+      </div>
+    </a>
+    <a class="article-card" href="images/news/abukuma.jpg" target="_blank" rel="noopener">
+      <img src="images/news/abukuma.jpg" alt="福島民報の掲載記事「「えんびゃれ」に込めた古里への想い」" loading="lazy">
+      <div class="article-card-body">
+        <p class="article-outlet">福島民報 コラム「あぶくま抄」</p>
+        <h3>「えんびゃれ」に込めた古里への想い</h3>
+        <p>只見弁で「一緒に行きましょう」を意味する団体名の由来や、町を盛り上げたいという代表の想いが紹介された。</p>
+      </div>
+    </a>
+    <a class="article-card" href="images/news/suiro.jpg" target="_blank" rel="noopener">
+      <img src="images/news/suiro.jpg" alt="福島民報の掲載記事「会津大、大正大生らの「えんびゃれ」 上福井集落で水路清掃」" loading="lazy">
+      <div class="article-card-body">
+        <p class="article-outlet">福島民報</p>
+        <h3>会津大、大正大生らの「えんびゃれ」<br>上福井集落で水路清掃</h3>
+        <p>上福井集落での水路清掃やしめ縄づくりに36人が参加。住民から「作業を担ってくれて助かる」との声が寄せられた。</p>
+      </div>
+    </a>
+    <a class="article-card" href="images/news/setsuritsu.jpg" target="_blank" rel="noopener">
+      <img src="images/news/setsuritsu.jpg" alt="福島民報の掲載記事「学生集め古里手助け 大正大×会津大「えんびゃれ」設立」" loading="lazy">
+      <div class="article-card-body">
+        <p class="article-outlet">福島民報</p>
+        <h3>学生集め古里手助け<br>大正大×会津大「えんびゃれ」設立</h3>
+        <p>代表・堀金康太と副代表・田代幸己による団体設立を紹介。夏のカヤ刈り、冬の除雪など年間を通した活動計画が掲載された。</p>
+      </div>
+    </a>
+  </div>
+</section>
+
 <!-- ── MEDIA OUTLET INFO ── -->
 <div class="media-card-section reveal">
   <div class="media-card-inner">
@@ -515,7 +591,7 @@
       <div class="media-outlet-line"></div>
     </div>
     <p class="media-desc">
-      福島県を代表する地方紙。えんびゃれの活動と、只見町での学生・住民の交流が紙面で紹介されました。
+      福島県を代表する地方紙。えんびゃれの設立から水路清掃、夏祭りまで、只見町での学生・住民の交流がニュース記事・コラム・読者投稿として何度も紙面で紹介されました。
     </p>
   </div>
 </div>
