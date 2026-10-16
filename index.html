@@ -2389,8 +2389,14 @@ if (hamburger && navMenu) {
       if (!data || !data.photos) return;
       items = data.photos.map(p => ({ src: p.src, alt: p.alt || '' }));
     }
+    // 写真ごとに見せたい位置（object-position）を指定
+    const FOCUS = {
+      '17.jpg': 'center top'
+    };
     wrap.innerHTML = items.map((p, i) => {
-      return `<div class="gp gp${i+1}"><img src="${escapeHtml(p.src)}" alt="${escapeHtml(p.alt || '')}"></div>`;
+      const focus = FOCUS[p.src.split('?')[0].split('/').pop()];
+      const style = focus ? ` style="object-position:${focus}"` : '';
+      return `<div class="gp gp${i+1}"><img src="${escapeHtml(p.src)}" alt="${escapeHtml(p.alt || '')}"${style}></div>`;
     }).join('');
   }
 
